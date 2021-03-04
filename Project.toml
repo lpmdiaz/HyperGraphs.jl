@@ -1,0 +1,4 @@
+name = "HyperGraphs"
+uuid = "e54fe45a-379a-431d-91b1-83d23201f60f"
+authors = ["Leo <lpdiaz@student.unimelb.edu.au>"]
+version = "0.1.0"
