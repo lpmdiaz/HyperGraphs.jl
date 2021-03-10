@@ -12,6 +12,8 @@ Abstract type that is the supertype of all hyperedge types.
 """
 abstract type AbstractHyperEdge end
 
+abstract type AbstractIncidenceSet end
+
 """
 	HyperEdge{T}
 
@@ -63,7 +65,7 @@ A type that represents an incidence structure, that is a set of objects and thei
 - multiplicities are restricted to integers
 - if no stoichiometry is given, defaults to 1 for convenience
 """
-mutable struct SpeciesSet{T}
+mutable struct SpeciesSet{T} <: AbstractIncidenceSet
 	objs::AbstractVector{T}
 	mults::AbstractVector{Int}
 	function SpeciesSet{T}(objs::AbstractVector{T}, mults::AbstractVector{Int}) where {T}
