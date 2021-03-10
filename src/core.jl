@@ -1,3 +1,5 @@
+## abstract types ##
+
 """
 	AbstractHyperGraph
 
@@ -13,6 +15,8 @@ Abstract type that is the supertype of all hyperedge types.
 abstract type AbstractHyperEdge end
 
 abstract type AbstractIncidenceSet end
+
+## concrete types ##
 
 """
 	HyperEdge{T}
@@ -127,6 +131,8 @@ ChemicalHyperGraph(hes::AbstractVector{ChemicalHyperEdge{T}}) where {T} = Chemic
 ChemicalHyperGraph{T}() where {T} = ChemicalHyperGraph{T}([], [])
 ChemicalHyperGraph() = ChemicalHyperGraph{Any}([], [])
 
+## traits ##
+
 # build unions of abstract types for easier dispatch
 const AbstractStructs = Union{AbstractHyperGraph, AbstractHyperEdge}
 
@@ -153,3 +159,31 @@ const WeightedStructs = Union{ChemicalHyperGraph, ChemicalHyperEdge}
 isoriented(::Type{T}) where {T<:OrientedStructs} = true
 @traitimpl IsWeighted{WeightedStructs}
 isweighted(::Type{T}) where {T<:WeightedStructs} = true
+
+## core functions ##
+
+# objects and multiplicities of incidence structures
+objects(i::T) where {T<:AbstractIncidenceSet} = i.objs
+multiplicities(i::T) where {T<:AbstractIncidenceSet} = i.mults
+
+# vertices of hyperedges, of hypergraphs
+@traitfn vertices(he::T::(!IsOriented)) where {T<:AbstractHyperEdge} = he.V
+@traitfn vertices(he::T::IsOriented) where {T<:AbstractHyperEdge} = vcat(src(he), tgt(he))
+vertices(hes::AbstractVector{T}) where {T<:AbstractHyperEdge} = vertices.(hes)
+vertices(hg::T) where {T<:AbstractHyperGraph} = hg.V
+
+# hyperedges of hypergraphs
+hyperedges(hg::T) where {T<:AbstractHyperGraph} = hg.HE
+
+# source and target of oriented hyperedges
+@traitfn src(he::T::IsOriented) where {T<:AbstractHyperEdge} = objects(he.src)
+@traitfn tgt(he::T::IsOriented) where {T<:AbstractHyperEdge} = objects(he.tgt)
+src(hes::AbstractVector{T}) where {T<:AbstractHyperEdge} = [src(he) for he in hes]
+tgt(hes::AbstractVector{T}) where {T<:AbstractHyperEdge} = [tgt(he) for he in hes]
+
+# multiplicities of oriented hyperedges
+@traitfn src_multiplicities(he::T::IsOriented) where {T<:AbstractHyperEdge} = multiplicities(he.src)
+@traitfn tgt_multiplicities(he::T::IsOriented) where {T<:AbstractHyperEdge} = multiplicities(he.tgt)
+
+# weight of weighted hyperedges
+@traitfn weight(he::T::IsWeighted) where {T} = he.weight
