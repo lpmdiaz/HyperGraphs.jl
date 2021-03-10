@@ -3,7 +3,6 @@ module HyperGraphs
 using SimpleTraits.SimpleTraits
 
 include("core.jl")
-include("traits.jl")
 
 export
 
