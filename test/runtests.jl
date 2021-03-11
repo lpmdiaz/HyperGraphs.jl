@@ -1,8 +1,9 @@
 using Test
 
 const tests = [
-    "traits",
-    "core"
+    "core",
+    "properties",
+    "traits"
 ]
 
 for test in tests
