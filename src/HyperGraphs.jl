@@ -3,6 +3,7 @@ module HyperGraphs
 using SimpleTraits.SimpleTraits
 
 include("core.jl")
+include("properties.jl")
 
 export
 
@@ -20,6 +21,11 @@ isoriented, isweighted, # trait functions
 objects, multiplicities, # incidence functions
 vertices, hyperedges, # hyperedges and hypergraphs functions
 src, tgt, src_multiplicities, tgt_multiplicities, # oriented hyperedges functions
-weight # weighted hyperedges functions
+weight, # weighted hyperedges functions
+
+# properties
+degree, indegree, outdegree, degrees, indegrees, outdegrees, # vertices properties
+length, cardinality, cardinalities, # hyperedges properties
+nv, nhe, rank, order, hypergraph_size, volume # hypergraphs properties
 
 end # module
