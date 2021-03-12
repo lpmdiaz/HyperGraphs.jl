@@ -25,8 +25,9 @@ HyperGraph(HyperEdge([1, 1]))
 
 # hypergraphs: functions
 @test vertices(HyperGraph(HyperEdge([1, :∅]))) == [1, :∅]
-hg = HyperGraph(vertices_he, hes)
-@test vertices(hg) == vertices_he
+hg = HyperGraph(hes)
+@test vertices(hg) == unique(vcat(vertices_hes...))
+@test vertices(hyperedges(hg)) == vertices_hes
 @test hyperedges(hg) == hes
 
 ## chemical hyperedges and chemical hypergraphs ##
