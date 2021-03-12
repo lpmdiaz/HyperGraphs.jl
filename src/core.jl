@@ -32,6 +32,8 @@ end
 HyperEdge(v::T) where {T} = HyperEdge{T}([v])
 HyperEdge{T}() where {T} = HyperEdge{T}([])
 HyperEdge() = HyperEdge{Any}([])
+Base.:(==)(he1::HyperEdge, he2::HyperEdge) = vertices(he1) == vertices(he2)
+Base.eltype(::HyperEdge{T}) where {T} = T
 
 """
 	HyperGraph{T}
@@ -55,6 +57,8 @@ HyperGraph{T}() where {T} = HyperGraph{T}([], [])
 HyperGraph() = HyperGraph{Any}([], [])
 (::Type{HyperGraph{T}})(he::HyperEdge{T}) where {T} = HyperGraph(he)
 (::Type{HyperGraph{T}})(hes::AbstractVector{HyperEdge{T}}) where {T} = HyperGraph(hes)
+Base.:(==)(hg1::HyperGraph, hg2::HyperGraph) = vertices(hg1) == vertices(hg2) && hyperedges(hg1) == hyperedges(hg2)
+Base.eltype(::HyperGraph{T}) where {T} = T
 
 """
 	SpeciesSet{T}
@@ -82,6 +86,11 @@ SpeciesSet(species::AbstractVector{T}) where {T} = SpeciesSet{T}(species, ones(I
 SpeciesSet(species::T) where {T} = SpeciesSet([species])
 SpeciesSet{T}() where {T} = SpeciesSet{T}(T[], Int[])
 SpeciesSet() = SpeciesSet{Any}()
+species(S::SpeciesSet) = objects(S)
+stoich(S::SpeciesSet) = multiplicities(S)
+Base.:(==)(s1::SpeciesSet, s2::SpeciesSet) = species(s1) == species(s2) && stoich(s1) == stoich(s2)
+Base.eltype(::SpeciesSet{T}) where {T} = T
+Base.length(S::SpeciesSet) = length(species(S))
 
 """
 	ChemicalHyperEdge{T}
@@ -109,6 +118,15 @@ ChemicalHyperEdge(inputs::SpeciesSet{T}, outputs::AbstractVector{T}) where {T} =
 ChemicalHyperEdge{T}() where {T} = ChemicalHyperEdge{T}(SpeciesSet{T}(), SpeciesSet{T}(), one(Int))
 ChemicalHyperEdge() = ChemicalHyperEdge{Any}()
 (::Type{ChemicalHyperEdge{T}})(inputs, outputs) where {T} = ChemicalHyperEdge(inputs, outputs)
+inputs(che::ChemicalHyperEdge) = src(che)
+outputs(che::ChemicalHyperEdge) = tgt(che)
+rate(che::ChemicalHyperEdge) = weight(che)
+src_stoich(che::ChemicalHyperEdge) = src_multiplicities(he)
+tgt_stoich(che::ChemicalHyperEdge) = tgt_multiplicities(he)
+inputs_stoich(che::ChemicalHyperEdge) = src_stoich(che)
+outputs_stoich(che::ChemicalHyperEdge) = tgt_stoich(che)
+Base.:(==)(che1::ChemicalHyperEdge, che2::ChemicalHyperEdge) = inputs(che1) == inputs(che2) && outputs(che1) == outputs(che2) && rate(che1) == rate(che2)
+Base.eltype(::ChemicalHyperEdge{T}) where {T} = T
 
 """
 	ChemicalHyperGraph{T}
@@ -130,6 +148,8 @@ ChemicalHyperGraph(hes::AbstractVector{ChemicalHyperEdge{T}}) where {T} = Chemic
 (::Type{ChemicalHyperGraph{T}})(hes::AbstractVector{ChemicalHyperEdge{T}}) where {T} = ChemicalHyperGraph(hes)
 ChemicalHyperGraph{T}() where {T} = ChemicalHyperGraph{T}([], [])
 ChemicalHyperGraph() = ChemicalHyperGraph{Any}([], [])
+Base.:(==)(hg1::ChemicalHyperGraph, hg2::ChemicalHyperGraph) = vertices(hg1) == vertices(hg2) && hyperedges(hg1) == hyperedges(hg2)
+Base.eltype(::ChemicalHyperGraph{T}) where {T} = T
 
 ## traits ##
 

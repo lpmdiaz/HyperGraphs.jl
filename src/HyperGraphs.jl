@@ -23,6 +23,10 @@ vertices, hyperedges, # hyperedges and hypergraphs functions
 src, tgt, src_multiplicities, tgt_multiplicities, # oriented hyperedges functions
 weight, # weighted hyperedges functions
 
+# core: type functions
+species, stoich, src_stoich, tgt_stoich, inputs_stoich, outputs_stoich,
+inputs, outputs, rate,
+
 # queries
 has_vertex, has_vertices,
 has_hyperedge, has_hyperedges,
