@@ -4,6 +4,7 @@ using SimpleTraits.SimpleTraits
 
 include("core.jl")
 include("queries.jl")
+include("utils.jl")
 
 export
 
@@ -26,6 +27,9 @@ weight, # weighted hyperedges functions
 # core: type functions
 species, stoich, src_stoich, tgt_stoich, inputs_stoich, outputs_stoich,
 inputs, outputs, rate,
+
+# utils
+num_has_vertex,
 
 # queries
 has_vertex, has_vertices,

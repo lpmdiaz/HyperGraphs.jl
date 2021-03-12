@@ -3,7 +3,8 @@ using Test
 const tests = [
     "core",
     "queries",
-    "traits"
+    "traits",
+    "utils"
 ]
 
 for test in tests
