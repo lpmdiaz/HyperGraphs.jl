@@ -2,8 +2,9 @@ using Test
 
 const tests = [
     "core",
-    "properties",
-    "traits"
+    "queries",
+    "traits",
+    "utils"
 ]
 
 for test in tests
