@@ -1,6 +1,5 @@
 using HyperGraphs
 
-
 ## Boolean queries ##
 
 # hyperedges
@@ -39,3 +38,5 @@ vertices_chg = [1, 2, 3, 4]
 chg = ChemicalHyperGraph(vertices_chg, ches)
 @test has_vertex(chg, 1)
 @test has_vertices(chg, vertices(chg))
+
+## content queries ##
