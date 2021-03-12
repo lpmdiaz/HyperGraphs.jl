@@ -58,9 +58,9 @@ degrees(hg::T, vs::AbstractVector) where {T<:AbstractHyperGraph} = [degree(hg, v
 @traitfn outdegrees(hg::T::IsOriented, vs::AbstractVector) where {T<:AbstractHyperGraph} = [outdegree(hg, v) for v in vs]
 
 # degree functions for hypergraphs
-degrees(hg::T) where {T<:AbstractHyperGraph} = degree(hg, vertices(hg))
-@traitfn indegrees(hg::T::IsOriented) where {T<:AbstractHyperGraph} = indegree(hg, vertices(hg))
-@traitfn outdegrees(hg::T::IsOriented) where {T<:AbstractHyperGraph} = outdegree(hg, vertices(hg))
+degrees(hg::T) where {T<:AbstractHyperGraph} = degrees(hg, vertices(hg))
+@traitfn indegrees(hg::T::IsOriented) where {T<:AbstractHyperGraph} = indegrees(hg, vertices(hg))
+@traitfn outdegrees(hg::T::IsOriented) where {T<:AbstractHyperGraph} = outdegrees(hg, vertices(hg))
 
 ## hyperedges properties ##
 
@@ -84,4 +84,4 @@ order(hg::T) where {T<:AbstractHyperGraph} = nv(hg)
 
 # size and volume of hypergraph
 hypergraph_size(hg::T) where {T<:AbstractHyperGraph} = sum(cardinalities(hyperedges(hg)))
-volume(hg::T, vs::AbstractVector) where {T<:AbstractHyperGraph} = has_vertices(hg, vs) ? sum(degree(hg, vs)) : error("vertices not in hypergraph")
+volume(hg::T, vs::AbstractVector) where {T<:AbstractHyperGraph} = has_vertices(hg, vs) ? sum(degrees(hg, vs)) : error("vertices not in hypergraph")

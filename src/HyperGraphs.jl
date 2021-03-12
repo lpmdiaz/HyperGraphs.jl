@@ -3,6 +3,7 @@ module HyperGraphs
 using SimpleTraits.SimpleTraits
 
 include("core.jl")
+include("properties.jl")
 include("queries.jl")
 include("utils.jl")
 
@@ -28,12 +29,17 @@ weight, # weighted hyperedges functions
 species, stoich, src_stoich, tgt_stoich, inputs_stoich, outputs_stoich,
 inputs, outputs, rate,
 
-# utils
-num_has_vertex,
+# properties
+degree, indegree, outdegree, degrees, indegrees, outdegrees, # vertices properties
+length, cardinality, cardinalities, # hyperedges properties
+nv, nhe, rank, order, hypergraph_size, volume, # hypergraphs properties
 
 # queries
 has_vertex, has_vertices,
 has_hyperedge, has_hyperedges,
-in_src, in_tgt
+in_src, in_tgt,
+
+# utils
+num_has_vertex
 
 end # module
