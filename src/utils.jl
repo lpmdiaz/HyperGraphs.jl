@@ -1,5 +1,6 @@
 # count how many times a vertex appears in a hyperedge, according to function f on that hyperedge
 num_has_vertex(he::T, v; f::Function=vertices) where {T<:AbstractHyperEdge} = count(_v -> _v == v, f(he))
+num_has_vertex(hg::T, v; f::Function=vertices) where {T<:AbstractHyperGraph} = sum(vcat([HyperGraphs.num_has_vertex(he, v, f=f) for he in hyperedges(hg)]...))
 
 # returns all hyperedges incident on a given vertex
 function get_incident_hyperedges(hg::T, v; check_presence=true) where {T<:AbstractHyperGraph}

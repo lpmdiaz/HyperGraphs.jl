@@ -1,5 +1,9 @@
 using HyperGraphs
 
+hg = HyperGraph([HyperEdge([1, 2, 3]), HyperEdge([2, 3, 4])])
+srcs = [[1], [4]]; tgts = [[1, 2, 3], [2, 3, 4]]
+chg = ChemicalHyperGraph([ChemicalHyperEdge(src, tgt) for (src, tgt) in zip(srcs, tgts)])
+
 # num_has_vertex
 he = HyperEdge([1, 2, 3, 1])
 @test HyperGraphs.num_has_vertex(he, 1) == 2
@@ -7,10 +11,8 @@ he = HyperEdge([1, 2, 3, 1])
 che = ChemicalHyperEdge([1], [1, 2, 3])
 @test HyperGraphs.num_has_vertex(che, 1) == 2
 @test HyperGraphs.num_has_vertex(che, 4) == 0
-
-hg = HyperGraph([HyperEdge([1, 2, 3]), HyperEdge([2, 3, 4])])
-srcs = [[1], [4]]; tgts = [[1, 2, 3], [2, 3, 4]]
-chg = ChemicalHyperGraph([ChemicalHyperEdge(src, tgt) for (src, tgt) in zip(srcs, tgts)])
+@test HyperGraphs.num_has_vertex(hg, 2) == 2
+@test HyperGraphs.num_has_vertex(chg, 2) == 2
 
 # get_incident_hyperedges
 @test HyperGraphs.get_incident_hyperedges(hg, 1) == [hyperedges(hg)[1]]
