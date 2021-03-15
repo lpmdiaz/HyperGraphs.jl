@@ -45,9 +45,6 @@ iskuniform, iskregular,
 # queries: content
 empty_hyperedges, num_empty_hyperedges, has_empty_hyperedges,
 neighbors, inneighbors, outneighbors, all_neighbors,
-loops, positive_loops, num_loops,
-
-# utils
-num_has_vertex
+loops, positive_loops, num_loops
 
 end # module
