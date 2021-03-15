@@ -34,10 +34,18 @@ degree, indegree, outdegree, degrees, indegrees, outdegrees, # vertices properti
 length, cardinality, cardinalities, # hyperedges properties
 nv, nhe, rank, order, hypergraph_size, volume, # hypergraphs properties
 
-# queries
-has_vertex, has_vertices,
-has_hyperedge, has_hyperedges,
+# queries: Boolean
+has_vertex, has_vertices, has_hyperedge, has_hyperedges,
 in_src, in_tgt,
+isincident,
+issubhyperedge, isuniquesubhyperedge,
+isloop, is_positive_loop, has_loops,
+iskuniform, iskregular,
+
+# queries: content
+empty_hyperedges, num_empty_hyperedges, has_empty_hyperedges,
+neighbors, inneighbors, outneighbors, all_neighbors,
+loops, positive_loops, num_loops,
 
 # utils
 num_has_vertex
