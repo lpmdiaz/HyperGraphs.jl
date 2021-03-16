@@ -12,3 +12,6 @@ get_incident_hyperedges(hg::T, vs::AbstractVector) where {T<:AbstractHyperGraph}
 # create dictionaries to keep track of vertices order, mainly for getting the incidence matrix
 vertices_to_indices(vs::AbstractVector) = Dict([(v => i) for (i, v) in enumerate(vs)])
 vertices_to_indices(hg::T) where {T<:AbstractHyperGraph} = vertices_to_indices(vertices(hg))
+
+# return the stoichiometries of vertex v in chemical hyperedge che
+stoichiometries(che::ChemicalHyperEdge, v) = has_vertex(che, v) && (src_stoich(che)[findall(_v -> _v == v, src(che))], tgt_stoich(che)[findall( _v -> _v == v, tgt(che))])

@@ -21,3 +21,6 @@ che = ChemicalHyperEdge([1], [1, 2, 3])
 # vertices_to_indices
 @test all([HyperGraphs.vertices_to_indices(hg)[i] == i for i in 1:nv(hg)])
 @test all([HyperGraphs.vertices_to_indices(chg)[i] == i for i in 1:nv(chg)])
+
+# stoichiometries
+@test HyperGraphs.stoichiometries(ChemicalHyperEdge([:X], [:X]), :X) == ([1], [1])
