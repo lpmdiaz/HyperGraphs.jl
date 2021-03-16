@@ -77,7 +77,7 @@ has_empty_hyperedges(hg::T) where {T<:AbstractHyperGraph} = num_empty_hyperedges
 
 # neighbors
 function neighbors(hg::T, v) where {T<:AbstractHyperGraph} # unoriented
-	symdiff(vcat(vertices(get_incident_hyperedges(hg, v))...))
+	union(vcat(symdiff.(vertices(get_incident_hyperedges(hg, v)), v))...)
 end
 @traitfn function inneighbors(hg::T::IsOriented, v) where {T<:AbstractHyperGraph}
 
@@ -93,7 +93,7 @@ end
 
 	union(vcat(tgt(v_in_src)...))
 end
-@traitfn all_neighbors(hg::T::(!IsOriented), v) where {T<:AbstractHyperGraph} = neigbbors(hg, v) # unoriented
+@traitfn all_neighbors(hg::T::(!IsOriented), v) where {T<:AbstractHyperGraph} = neighbors(hg, v) # unoriented
 @traitfn all_neighbors(hg::T::IsOriented, v) where {T<:AbstractHyperGraph} = union(inneighbors(hg, v), outneighbors(hg, v)) # oriented
 
 # loops
