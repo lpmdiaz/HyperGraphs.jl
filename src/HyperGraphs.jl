@@ -42,11 +42,14 @@ issubhyperedge, isuniquesubhyperedge,
 isloop, is_positive_loop, has_loops,
 iskuniform, iskregular,
 is_netstoich_null, iscatalyst,
+has_parallel_hyperedges, has_multi_hyperedges,
 
 # queries: content
 empty_hyperedges, num_empty_hyperedges, has_empty_hyperedges,
 neighbors, inneighbors, outneighbors, all_neighbors,
 loops, positive_loops, num_loops,
-catalysts
+catalysts,
+parallel_hyperedges, num_parallel_hyperedges,
+multi_hyperedges, num_multi_hyperedges
 
 end # module

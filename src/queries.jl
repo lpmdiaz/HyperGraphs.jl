@@ -76,6 +76,10 @@ end
 iscatalyst(chg::ChemicalHyperGraph, v) = v in catalysts(chg)
 iscatalyst(che::ChemicalHyperEdge, v) = v in catalysts(che)
 
+# parallel and multi-hyperedges
+has_parallel_hyperedges(hg::T) where {T<:AbstractHyperGraph} = num_parallel_hyperedges(hg) > 0
+has_multi_hyperedges(hg::T) where {T<:AbstractHyperGraph} = num_multi_hyperedges(hg) > 0
+
 ## content queries ##
 
 # empty hyperedges, hypergraphs
@@ -115,3 +119,17 @@ num_loops(hg::AbstractHyperGraph) = sum([length(loop) > 0 for loop in loops(hg)]
 catalysts(che::ChemicalHyperEdge) = filter(v -> is_positive_loop(che, v) && is_netstoich_null(che, v), unique(vertices(che)))
 catalysts(ches::AbstractVector{ChemicalHyperEdge{T}}) where {T} = vcat(catalysts.(ches)...)
 catalysts(chg::ChemicalHyperGraph) = vcat(catalysts(hyperedges(chg))...)
+
+# parallel and multi-hyperedges
+"""
+	parallel_hyperedges
+
+There are parallel hyperedges in a hypergraph if any of its hyperedges is present more than once in the set of hyperedges."""
+parallel_hyperedges(hg::T) where {T<:AbstractHyperGraph} = filter(he -> sum(he == _he for _he in hyperedges(hg)) > 1, hyperedges(hg))
+num_parallel_hyperedges(hg::T) where {T<:AbstractHyperGraph} = length(parallel_hyperedges(hg))
+"""
+	multi_hyperedges
+
+There are multi-hyperedges in a hypergraph if any of its hyperedges is not a unique subedge i.e. there is at least another hyperedge of the same or greater length."""
+multi_hyperedges(hg::T) where {T<:AbstractHyperGraph} = filter(he -> !isuniquesubhyperedge(he, hg), hyperedges(hg))
+num_multi_hyperedges(hg::T) where {T<:AbstractHyperGraph} = length(multi_hyperedges(hg))

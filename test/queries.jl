@@ -123,6 +123,8 @@ catalyst_edge = ChemicalHyperEdge([:X], [:X])
 @test is_netstoich_null(catalyst_edge, :X)
 @test iscatalyst(chg, 1) && iscatalyst(hyperedges(chg)[1], 1)
 
+# parallel and multi-hyperedges
+
 ## content queries ##
 
 # empty hyperedges and hypergraphs
@@ -171,3 +173,29 @@ extra_oriented_che = ChemicalHyperEdge([1], [2])
 @test catalysts(ChemicalHyperEdge([:X, :Y, :Z], [:X])) == [:X]
 @test catalysts(ches) == catalysts(chg) == [1, 4]
 @test isempty(catalysts(ChemicalHyperEdge(SpeciesSet(:X), SpeciesSet(:X, 2)))) # non-null net stoichiometry
+
+# parallel and multi-hyperedges
+parallel_hg = HyperGraph([HyperEdge([1, 2, 3]), HyperEdge([1, 2, 3])])
+multi_hg = HyperGraph([HyperEdge([1, 2, 3]), HyperEdge([1, 2, 3, 4])])
+@test parallel_hyperedges(parallel_hg) == multi_hyperedges(parallel_hg) == hyperedges(parallel_hg)
+@test isempty(parallel_hyperedges(multi_hg))
+@test num_parallel_hyperedges(multi_hg) == 0
+@test multi_hyperedges(multi_hg) == [hyperedges(multi_hg)[1]]
+@test num_parallel_hyperedges(parallel_hg) == 2
+@test num_multi_hyperedges(multi_hg) == 1
+@test has_parallel_hyperedges(parallel_hg)
+@test !has_parallel_hyperedges(multi_hg)
+@test has_multi_hyperedges(parallel_hg)
+@test has_multi_hyperedges(multi_hg)
+parallel_chg = ChemicalHyperGraph([ChemicalHyperEdge(src, tgt) for (src, tgt) in zip([[1], [1]], [[1, 2, 3], [1, 2, 3]])])
+multi_chg = ChemicalHyperGraph([ChemicalHyperEdge(src, tgt) for (src, tgt) in zip([[1], [1]], [[1, 2, 3], [1, 2, 3, 4]])])
+@test parallel_hyperedges(parallel_chg) == multi_hyperedges(parallel_chg) == hyperedges(parallel_chg)
+@test isempty(parallel_hyperedges(multi_chg))
+@test num_parallel_hyperedges(multi_chg) == 0
+@test multi_hyperedges(multi_chg) == [hyperedges(multi_chg)[1]]
+@test num_parallel_hyperedges(parallel_chg) == 2
+@test num_multi_hyperedges(multi_chg) == 1
+@test has_parallel_hyperedges(parallel_chg)
+@test !has_parallel_hyperedges(multi_chg)
+@test has_multi_hyperedges(parallel_chg)
+@test has_multi_hyperedges(multi_chg)
