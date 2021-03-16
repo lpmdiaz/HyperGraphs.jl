@@ -41,10 +41,12 @@ isincident,
 issubhyperedge, isuniquesubhyperedge,
 isloop, is_positive_loop, has_loops,
 iskuniform, iskregular,
+is_netstoich_null, iscatalyst,
 
 # queries: content
 empty_hyperedges, num_empty_hyperedges, has_empty_hyperedges,
 neighbors, inneighbors, outneighbors, all_neighbors,
-loops, positive_loops, num_loops
+loops, positive_loops, num_loops,
+catalysts
 
 end # module

@@ -117,6 +117,12 @@ negative_loop2 = ChemicalHyperEdge([1, 2, 3], [4, 5, 4])
 @test !iskregular(chg, rand(Int))
 @test !iskregular(hg, rand(Int))
 
+# chemical hypergraph & hyperedge queries
+@test is_netstoich_null(ChemicalHyperEdge([1], [1, 2, 3, 4]), 1)
+catalyst_edge = ChemicalHyperEdge([:X], [:X])
+@test is_netstoich_null(catalyst_edge, :X)
+@test iscatalyst(chg, 1) && iscatalyst(hyperedges(chg)[1], 1)
+
 ## content queries ##
 
 # empty hyperedges and hypergraphs
@@ -159,3 +165,9 @@ extra_oriented_che = ChemicalHyperEdge([1], [2])
 @test positive_loops(ChemicalHyperGraph([positive_loop1, negative_loop1, negative_loop2]))[1] == positive_loop1
 @test num_loops(HyperGraph([unoriented_loop1, unoriented_loop2, extra_unoriented_he])) == 2
 @test num_loops(ChemicalHyperGraph([positive_loop1, negative_loop1, extra_oriented_che])) == 2
+
+# catalysts (chemical hypergraphs)
+@test catalysts(catalyst_edge) == [:X]
+@test catalysts(ChemicalHyperEdge([:X, :Y, :Z], [:X])) == [:X]
+@test catalysts(ches) == catalysts(chg) == [1, 4]
+@test isempty(catalysts(ChemicalHyperEdge(SpeciesSet(:X), SpeciesSet(:X, 2)))) # non-null net stoichiometry

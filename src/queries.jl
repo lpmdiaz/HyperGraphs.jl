@@ -68,6 +68,14 @@ A hypergraph is k-regular all its vertices have degree k.
 """
 iskregular(hg::T, k::Int) where {T<:AbstractHyperGraph} = sum(degrees(hg) .== k) == nv(hg)
 
+# chemical hypergraph & hyperedge queries
+function is_netstoich_null(che::ChemicalHyperEdge, v)
+	s = stoichiometries(che, v)
+	(length(first(s)) == length(last(s))) && all(first(s) .- last(s) .== 0)
+end
+iscatalyst(chg::ChemicalHyperGraph, v) = v in catalysts(chg)
+iscatalyst(che::ChemicalHyperEdge, v) = v in catalysts(che)
+
 ## content queries ##
 
 # empty hyperedges, hypergraphs
@@ -102,3 +110,8 @@ loops(hg::AbstractHyperGraph) = loops(hyperedges(hg))
 @traitfn positive_loops(hes::AbstractVector{T}) where {T<:AbstractHyperEdge; IsOriented{T}} = filter(he -> is_positive_loop(he), hes)
 @traitfn positive_loops(hg::AbstractHyperGraph::IsOriented) = positive_loops(hyperedges(hg))
 num_loops(hg::AbstractHyperGraph) = sum([length(loop) > 0 for loop in loops(hg)])
+
+# catalysts (chemical hypergraphs)
+catalysts(che::ChemicalHyperEdge) = filter(v -> is_positive_loop(che, v) && is_netstoich_null(che, v), unique(vertices(che)))
+catalysts(ches::AbstractVector{ChemicalHyperEdge{T}}) where {T} = vcat(catalysts.(ches)...)
+catalysts(chg::ChemicalHyperGraph) = vcat(catalysts(hyperedges(chg))...)
