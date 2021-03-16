@@ -128,6 +128,25 @@ negative_loop2 = ChemicalHyperEdge([1, 2, 3], [4, 5, 4])
 @test num_empty_hyperedges(HyperGraph(HyperEdge())) == 1
 @test has_empty_hyperedges(ChemicalHyperGraph(ChemicalHyperEdge()))
 
+# neighbors
+@test neighbors(hg, 2) == [1, 3, 4]
+@test inneighbors(chg, 1) == [1]
+@test inneighbors(chg, 2) == [1, 4]
+@test inneighbors(chg, 3) == [1, 4]
+@test inneighbors(chg, 4) == [4]
+@test outneighbors(chg, 1) == [1, 2, 3]
+@test outneighbors(chg, 2) == []
+@test outneighbors(chg, 3) == []
+@test outneighbors(chg, 4) == [2, 3, 4]
+@test all_neighbors(hg, 1) == neighbors(hg, 1) == [2, 3]
+@test all_neighbors(hg, 2) == neighbors(hg, 2) == [1, 3, 4]
+@test all_neighbors(chg, 1) == [1, 2, 3]
+new_ches = [ChemicalHyperEdge(src, tgt) for (src, tgt) in zip([[1], [4]], [[1, 2, 3, 4], [2, 3, 4, 5]])]
+new_chg = ChemicalHyperGraph(new_ches)
+@test sort(all_neighbors(new_chg, 4)) == [1, 2, 3, 4, 5]
+@test neighbors(HyperGraph(HyperEdge([1, 1])), 1) == [1] # loop
+@test all_neighbors(ChemicalHyperGraph(ChemicalHyperEdge([1], [1])), 1) == [1] # loop
+
 # loops
 extra_unoriented_he = HyperEdge([1])
 extra_oriented_che = ChemicalHyperEdge([1], [2])
