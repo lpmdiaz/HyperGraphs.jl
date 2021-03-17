@@ -2,6 +2,7 @@ using Test
 
 const tests = [
     "core",
+    "conversions",
     "operations",
     "properties",
     "queries",

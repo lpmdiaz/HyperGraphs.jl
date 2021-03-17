@@ -3,6 +3,7 @@ module HyperGraphs
 using SimpleTraits.SimpleTraits
 
 include("core.jl")
+include("conversions.jl")
 include("operations.jl")
 include("properties.jl")
 include("queries.jl")
