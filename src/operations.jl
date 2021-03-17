@@ -45,7 +45,6 @@ function _del_vertex!(hg, v, weak)
 end
 """
 	del_vertex!
-
 Note: if choosing weak deletion, may result in empty hyperedges.
 """
 function del_vertex!(hg::T, v; weak=false) where {T<:AbstractHyperGraph}
@@ -64,7 +63,6 @@ function _del_vertices!(hg, vs, weak)
 end
 """
 	del_vertices!
-
 Note: if choosing weak deletion, may result in empty hyperedges.
 """
 function del_vertices!(hg::T, vs::AbstractVector; weak=false) where {T<:AbstractHyperGraph}
@@ -84,7 +82,6 @@ function check_can_add_hyperedge(hg::T, he::U) where {T<:AbstractHyperGraph, U<:
 end
 """
 	add_hyperedge!
-
 If the hyperedge being added contains vertices not already in hypergraph hg, run `add_vertices(hg, [new_vertices])` first.
 """
 function add_hyperedge!(hg::T, he::U;check=true) where {T<:AbstractHyperGraph, U<:AbstractHyperEdge}
@@ -136,7 +133,6 @@ end
 # weight updating
 """
 	update_weight!
-
 Notes: only works for weighted hyperedges (this will eventually be a traited function) and relies on the weight field being named `:weight`.
 """
 update_weight!(he::T, w) where {T<:AbstractHyperEdge} = setfield!(he, :weight, w)
@@ -151,7 +147,6 @@ Base.merge(hgs::AbstractVector{T}) where {T<:AbstractHyperGraph} = reduce(merge,
 
 """
 	subhypergraph
-
 Subhypergraph induced by a set of vertices or hyperedges (also referred to as a hyperedge restriciton and a vertex restriction, respectively).
 """
 function subhypergraph end
