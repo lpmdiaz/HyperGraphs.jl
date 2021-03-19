@@ -1,4 +1,4 @@
-# HyperGraphs.jl
+<h1 align="center"><a>HyperGraphs.jl</a></h1>
 
 The main aim of this package is to implement concepts of graph theory on hypergraphs. At the most basic level, it allows to represent high-order relationships between objects, with complete freedom to choose the type of these objects. A secondary aim follows from the realisation that most flavours of (hyper)graphs are a specific case of oriented, weighted hypergraphs; from this, it should be possible to define all methods at the hypergraph level and to programmatically specialise them for other (hyper)graph types.
 
@@ -49,6 +49,8 @@ The source and the target of an oriented hyperedge are also referred to as head 
 Chemical hypergraphs represent reaction networks but are rooted in graph theory. The main reference is probably [[Jost2019]](#Jost2019).
 
 In this implementation, I took the liberty to name _chemical hyperedges_ the reactions, following the same logic as naming _chemical hypergraph_ the hypergraph that represents a system of reactions (this is because in each case it is a specific case of hypergraph and hyperedge, namely one where the hyperedge incidence multiplicity is restricted to the positive integers, thus representing stoichiometries).
+
+Graph theoretical concepts have natural interpretations in the context of chemical reactions represented on chemical hypergraphs. For instance, a vertex-hyperedge incidence multiplicity represents how many times a vertex occurs in a hyperedge and as such encodes stoichiometry information, while a hyperedge-hypergraph incidence multiplicity encodes for parallel hyperedges (this is not currently implemented).
 
 Constructors set 1 as the default value for reactions rate and for stoichiometries; this is to simplify the syntax. For instance, all these calls are equivalent: `SpeciesSet(["X"])`, `SpeciesSet("X")`, `SpeciesSet("X", 1)`, `SpeciesSet(["X"], [1])`. Compared to other implementations of reaction networks, it is also easier to specify a different stoichiometry for only part of the reaction (e.g. if one needs only some of the reactants to have stoichiometries different from 1, only the reactant stoichiometries have to be specified and not those of all the species involved).
 
