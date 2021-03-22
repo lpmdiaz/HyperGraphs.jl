@@ -69,6 +69,10 @@ Base.length(he::T) where {T<:AbstractHyperEdge} = length(vertices(he))
 cardinality(he::T) where {T<:AbstractHyperEdge} = length(he)
 cardinalities(hes::AbstractVector{T}) where {T<:AbstractHyperEdge} = cardinality.(hes)
 
+# number of source and of target objects
+@traitfn nsrcs(he::T::IsOriented) where {T<:AbstractHyperEdge} = length(objects(he.src))
+@traitfn ntgts(he::T::IsOriented) where {T<:AbstractHyperEdge} = length(objects(he.tgt))
+
 ## hypergraphs properties ##
 
 # number of vertices, of hyperedges

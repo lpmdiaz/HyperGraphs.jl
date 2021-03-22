@@ -10,6 +10,10 @@ srcs = [[1], [4]]; tgts = [[1, 2, 3], [2, 3, 4]]
 ches = [ChemicalHyperEdge(src, tgt) for (src, tgt) in zip(srcs, tgts)]
 @test length.(ches) == cardinalities(ches) == [4, 4]
 @test cardinality(ChemicalHyperEdge(["X"], ["X"])) == 2 # cardinality of a self-loop is 2
+@test nsrcs(ches[1]) == nsrcs(ches[2]) == 1
+@test ntgts(ches[1]) == ntgts(ches[2]) == 3
+@test nsrcs(ches[1]) + ntgts(ches[1]) == length(ches[1])
+@test nsrcs(ches[1]) + ntgts(ches[1]) == length(ches[1])
 
 # hypergraphs properties
 hg = HyperGraph(vertices_he, hes)
