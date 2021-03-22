@@ -83,7 +83,7 @@ nhe(hg::T) where {T<:AbstractHyperGraph} = length(hyperedges(hg))
 Base.size(hg::T) where {T<:AbstractHyperGraph} = (nv(hg), nhe(hg))
 
 # rank and order of hypergraph
-rank(hg::T) where {T<:AbstractHyperGraph} = maximum(degrees(hg))
+hypergraph_rank(hg::T) where {T<:AbstractHyperGraph} = maximum(degrees(hg))
 order(hg::T) where {T<:AbstractHyperGraph} = nv(hg)
 
 # size and volume of hypergraph

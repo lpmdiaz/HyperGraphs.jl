@@ -1,6 +1,7 @@
 module HyperGraphs
 
 using SimpleTraits.SimpleTraits
+using LinearAlgebra
 
 include("core.jl")
 include("conversions.jl")
@@ -42,7 +43,7 @@ subhypergraph,
 # properties
 degree, indegree, outdegree, degrees, indegrees, outdegrees, # vertices properties
 length, cardinality, cardinalities, nsrcs, ntgts, # hyperedges properties
-nv, nhe, rank, order, hypergraph_size, volume, # hypergraphs properties
+nv, nhe, hypergraph_rank, order, hypergraph_size, volume, # hypergraphs properties
 
 # queries: Boolean
 has_vertex, has_vertices, has_hyperedge, has_hyperedges,

@@ -22,12 +22,12 @@ hg = HyperGraph(vertices_he, hes)
 @test order(hg) == 3
 @test hypergraph_size(hg) == 6
 @test size(hg) == (3, 2)
-@test rank(hg) == 2
+@test hypergraph_rank(hg) == 2
 vertices_chg = [1, 2, 3, 4]
 chg = ChemicalHyperGraph(vertices_chg, ches)
 @test nv(chg) == length(vertices_chg)
 @test nhe(chg) == length(ches)
-@test rank(chg) == 2
+@test hypergraph_rank(chg) == 2
 
 # vertices properties
 @test degree(hg, 1) == 1
