@@ -5,6 +5,7 @@ using LinearAlgebra
 
 include("core.jl")
 include("conversions.jl")
+include("matrices.jl")
 include("operations.jl")
 include("properties.jl")
 include("queries.jl")
@@ -31,6 +32,9 @@ weight, # weighted hyperedges functions
 # core: type functions
 species, stoich, src_stoich, tgt_stoich, inputs_stoich, outputs_stoich,
 inputs, outputs, rate,
+
+# matrices
+degree_matrix, incidence_matrix,
 
 # operations
 add_vertex!, add_vertices!, del_vertex!, del_vertices!,

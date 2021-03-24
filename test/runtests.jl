@@ -3,6 +3,7 @@ using Test
 const tests = [
     "core",
     "conversions",
+    "matrices",
     "operations",
     "properties",
     "queries",
