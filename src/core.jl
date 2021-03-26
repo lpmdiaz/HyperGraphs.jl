@@ -1,14 +1,14 @@
 ## abstract types ##
 
 """
-	AbstractHyperGraph
+    AbstractHyperGraph
 
 Abstract type that is the supertype of all hypergraph types.
 """
 abstract type AbstractHyperGraph end
 
 """
-	AbstractHyperEdge
+    AbstractHyperEdge
 
 Abstract type that is the supertype of all hyperedge types.
 """
@@ -19,7 +19,7 @@ abstract type AbstractIncidenceSet end
 ## concrete types ##
 
 """
-	HyperEdge{T}
+    HyperEdge{T}
 
 A type that represents unoriented, unweighted hyperedges. There are no restrictions to the structure; self-edges are allowed, and the hyperedge may be empty.
 
@@ -27,7 +27,7 @@ A type that represents unoriented, unweighted hyperedges. There are no restricti
 - `V`: a set of vertices
 """
 mutable struct HyperEdge{T} <: AbstractHyperEdge
-	V::AbstractVector{T}
+    V::AbstractVector{T}
 end
 HyperEdge(v::T) where {T} = HyperEdge{T}([v])
 HyperEdge{T}() where {T} = HyperEdge{T}([])
@@ -36,7 +36,7 @@ Base.:(==)(he1::HyperEdge, he2::HyperEdge) = isequal(vertices(he1), vertices(he2
 Base.eltype(::HyperEdge{T}) where {T} = T
 
 """
-	HyperGraph{T}
+    HyperGraph{T}
 
 A type that represents unoriented, unweighted hypergraphs.
 
@@ -45,8 +45,8 @@ A type that represents unoriented, unweighted hypergraphs.
 - `HE`: a set of hyperedges
 """
 mutable struct HyperGraph{T} <: AbstractHyperGraph
-	V::AbstractVector{T}
-	HE::AbstractVector{HyperEdge{T}}
+    V::AbstractVector{T}
+    HE::AbstractVector{HyperEdge{T}}
 end
 HyperGraph(v::T, hes::AbstractVector{HyperEdge{T}}) where {T} = HyperGraph{T}([v], hes)
 HyperGraph(vs::AbstractVector{T}, he::HyperEdge{T}) where {T} = HyperGraph{T}(vs, [he])
@@ -62,7 +62,7 @@ Base.:(==)(hg1::HyperGraph, hg2::HyperGraph) = isequal(vertices(hg1), vertices(h
 Base.eltype(::HyperGraph{T}) where {T} = T
 
 """
-	SpeciesSet{T}
+    SpeciesSet{T}
 
 A type that represents an incidence structure, that is a set of objects and their associated multiplicities, in the context of chemical reactions (where objects are chemical species and multiplicities are stoichiometries).
 
@@ -75,11 +75,11 @@ A type that represents an incidence structure, that is a set of objects and thei
 - if no stoichiometry is given, defaults to 1 for convenience
 """
 mutable struct SpeciesSet{T} <: AbstractIncidenceSet
-	objs::AbstractVector{T}
-	mults::AbstractVector{Int}
-	function SpeciesSet{T}(objs::AbstractVector{T}, mults::AbstractVector{Int}) where {T}
-		(length(objs) == length(mults)) ? new{T}(objs, mults) : error("species and stoichiometry vectors must have the same length")
-	end
+    objs::AbstractVector{T}
+    mults::AbstractVector{Int}
+    function SpeciesSet{T}(objs::AbstractVector{T}, mults::AbstractVector{Int}) where {T}
+        (length(objs) == length(mults)) ? new{T}(objs, mults) : error("species and stoichiometry vectors must have the same length")
+    end
 end
 SpeciesSet(species::AbstractVector{T}, stoich::AbstractVector{Int}) where {T} = SpeciesSet{T}(species, stoich)
 SpeciesSet(species::T, stoich::Int) where {T} = SpeciesSet{T}([species], [stoich])
@@ -94,7 +94,7 @@ Base.eltype(::SpeciesSet{T}) where {T} = T
 Base.length(S::SpeciesSet) = length(species(S))
 
 """
-	ChemicalHyperEdge{T}
+    ChemicalHyperEdge{T}
 
 A type that represents a chemical hyperedge, that is an oriented, weighted hyperedge, in the context of chemical reactions (where the weight is the reaction rate).
 
@@ -107,9 +107,9 @@ A type that represents a chemical hyperedge, that is an oriented, weighted hyper
 - if no rate is given, defaults to 1 for convenience
 """
 mutable struct ChemicalHyperEdge{T} <: AbstractHyperEdge
-	src::SpeciesSet{T}
-	tgt::SpeciesSet{T}
-	weight
+    src::SpeciesSet{T}
+    tgt::SpeciesSet{T}
+    weight
 end
 ChemicalHyperEdge(inputs::SpeciesSet{T}, outputs::SpeciesSet{T}) where {T} = ChemicalHyperEdge{T}(inputs, outputs, one(Int))
 ChemicalHyperEdge(inputs::AbstractVector{T}, outputs::AbstractVector{T}, rate) where {T} = ChemicalHyperEdge(SpeciesSet(inputs), SpeciesSet(outputs), rate)
@@ -130,7 +130,7 @@ Base.:(==)(che1::ChemicalHyperEdge, che2::ChemicalHyperEdge) = isequal(inputs(ch
 Base.eltype(::ChemicalHyperEdge{T}) where {T} = T
 
 """
-	ChemicalHyperGraph{T}
+    ChemicalHyperGraph{T}
 
 A type that represents oriented, weighted hypergraphs, in the context of chemical reactions.
 
@@ -139,8 +139,8 @@ A type that represents oriented, weighted hypergraphs, in the context of chemica
 - `HE`: a set of chemical hyperedges
 """
 mutable struct ChemicalHyperGraph{T} <: AbstractHyperGraph
-	V::AbstractVector{T}
-	HE::AbstractVector{ChemicalHyperEdge{T}}
+    V::AbstractVector{T}
+    HE::AbstractVector{ChemicalHyperEdge{T}}
 end
 ChemicalHyperGraph(vs::AbstractVector{T}, he::ChemicalHyperEdge{T}) where {T} = ChemicalHyperGraph{T}(vs, [he])
 ChemicalHyperGraph(he::ChemicalHyperEdge{T}) where {T} = ChemicalHyperGraph{T}(union(vertices(he)), [he])

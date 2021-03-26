@@ -1,7 +1,7 @@
 ## vertices properties ##
 
 """
-	degree
+    degree
 
 Degree of a given vertex in a given hypergraph. Also referred to as valency.
 
@@ -9,7 +9,7 @@ Degree of a given vertex in a given hypergraph. Also referred to as valency.
 function degree end
 
 """
-	degrees
+    degrees
 
 Degrees of several vertices in a given hypergraph.
 
@@ -17,32 +17,32 @@ Degrees of several vertices in a given hypergraph.
 function degrees end
 
 """
-	indegree
+    indegree
 
 """
 function indegree end
 
 """
-	indegrees
+    indegrees
 
 """
 function indegrees end
 
 """
-	outdegree
+    outdegree
 
 """
 function outdegree end
 
 """
-	outdegrees
+    outdegrees
 
 """
 function outdegrees end
 
 # internal function to deal with all cases
 function _degree(hg::T, v, f::Function) where {T<:AbstractHyperGraph}
-	has_vertex(hg, v) ? sum([num_has_vertex(he, v, f=f) for he in hyperedges(hg)]) : error("vertex $v not found in hypergraph vertices")
+    has_vertex(hg, v) ? sum([num_has_vertex(he, v, f=f) for he in hyperedges(hg)]) : error("vertex $v not found in hypergraph vertices")
 end
 
 # the degree of a vertex in a hypergraph

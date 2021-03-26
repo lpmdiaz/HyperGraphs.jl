@@ -4,8 +4,8 @@ num_has_vertex(hg::T, v; f::Function=vertices) where {T<:AbstractHyperGraph} = s
 
 # returns all hyperedges incident on a given vertex
 function get_incident_hyperedges(hg::T, v; check_presence=true) where {T<:AbstractHyperGraph}
-	check_presence && !has_vertex(hg, v) && error("vertex $v not found in hypergraph vertices")
-	filter(he -> isincident(he, v), hyperedges(hg))
+    check_presence && !has_vertex(hg, v) && error("vertex $v not found in hypergraph vertices")
+    filter(he -> isincident(he, v), hyperedges(hg))
 end
 get_incident_hyperedges(hg::T, vs::AbstractVector) where {T<:AbstractHyperGraph} = union(vcat([get_incident_hyperedges(hg, v) for v in vs])...)
 

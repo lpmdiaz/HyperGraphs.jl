@@ -38,13 +38,13 @@ isuniquesubhyperedge(he_sub::T, hg::U) where {T<:AbstractHyperEdge, U<:AbstractH
 
 # loops
 """
-	isloop
+    isloop
 
 A hyperedge is a loop if it has repeated vertices.
 """
 isloop(he::T) where {T<:AbstractHyperEdge} = length(vertices(he)) != length(unique(vertices(he)))
 """
-	is_positive_loop
+    is_positive_loop
 
 An oriented hyperedge is a positive loop wrt. a vertex if that vertex is both in the source set and in the target set.
 """
@@ -56,13 +56,13 @@ has_loops(hg::AbstractHyperGraph) = any(isloop.(hyperedges(hg)))
 
 # uniformity, regularity
 """
-	iskuniform
+    iskuniform
 
 A hypergraph is k-uniform if all hyperedges have cardinality k.
 """
 iskuniform(hg::T, k::Int) where {T<:AbstractHyperGraph} = sum(cardinalities(hyperedges(hg)) .== k) == nhe(hg)
 """
-	iskregular
+    iskregular
 
 A hypergraph is k-regular all its vertices have degree k.
 """
@@ -70,8 +70,8 @@ iskregular(hg::T, k::Int) where {T<:AbstractHyperGraph} = sum(degrees(hg) .== k)
 
 # chemical hypergraph & hyperedge queries
 function is_netstoich_null(che::ChemicalHyperEdge, v)
-	s = stoichiometries(che, v)
-	(length(first(s)) == length(last(s))) && all(first(s) .- last(s) .== 0)
+    s = stoichiometries(che, v)
+    (length(first(s)) == length(last(s))) && all(first(s) .- last(s) .== 0)
 end
 iscatalyst(chg::ChemicalHyperGraph, v) = v in catalysts(chg)
 iscatalyst(che::ChemicalHyperEdge, v) = v in catalysts(che)
@@ -89,21 +89,21 @@ has_empty_hyperedges(hg::T) where {T<:AbstractHyperGraph} = num_empty_hyperedges
 
 # neighbors
 function neighbors(hg::T, v) where {T<:AbstractHyperGraph} # unoriented
-	union(vcat(symdiff.(vertices(get_incident_hyperedges(hg, v)), v))...)
+    union(vcat(symdiff.(vertices(get_incident_hyperedges(hg, v)), v))...)
 end
 @traitfn function inneighbors(hg::T::IsOriented, v) where {T<:AbstractHyperGraph}
 
-	# incident hyperedges where v is in the target set
-	v_in_tgt = filter(he -> in_tgt(v, he), get_incident_hyperedges(hg, v))
+    # incident hyperedges where v is in the target set
+    v_in_tgt = filter(he -> in_tgt(v, he), get_incident_hyperedges(hg, v))
 
-	union(vcat(src(v_in_tgt)...))
+    union(vcat(src(v_in_tgt)...))
 end
 @traitfn function outneighbors(hg::T::IsOriented, v) where {T<:AbstractHyperGraph}
 
-	# incident hyperedges where v is in the source set
-	v_in_src = filter(he -> in_src(v, he), get_incident_hyperedges(hg, v))
+    # incident hyperedges where v is in the source set
+    v_in_src = filter(he -> in_src(v, he), get_incident_hyperedges(hg, v))
 
-	union(vcat(tgt(v_in_src)...))
+    union(vcat(tgt(v_in_src)...))
 end
 @traitfn all_neighbors(hg::T::(!IsOriented), v) where {T<:AbstractHyperGraph} = neighbors(hg, v) # unoriented
 @traitfn all_neighbors(hg::T::IsOriented, v) where {T<:AbstractHyperGraph} = union(inneighbors(hg, v), outneighbors(hg, v)) # oriented
@@ -122,13 +122,13 @@ catalysts(chg::ChemicalHyperGraph) = vcat(catalysts(hyperedges(chg))...)
 
 # parallel and multi-hyperedges
 """
-	parallel_hyperedges
+    parallel_hyperedges
 
 There are parallel hyperedges in a hypergraph if any of its hyperedges is present more than once in the set of hyperedges."""
 parallel_hyperedges(hg::T) where {T<:AbstractHyperGraph} = filter(he -> sum(he == _he for _he in hyperedges(hg)) > 1, hyperedges(hg))
 num_parallel_hyperedges(hg::T) where {T<:AbstractHyperGraph} = length(parallel_hyperedges(hg))
 """
-	multi_hyperedges
+    multi_hyperedges
 
 There are multi-hyperedges in a hypergraph if any of its hyperedges is not a unique subedge i.e. there is at least another hyperedge of the same or greater length."""
 multi_hyperedges(hg::T) where {T<:AbstractHyperGraph} = filter(he -> !isuniquesubhyperedge(he, hg), hyperedges(hg))
