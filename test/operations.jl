@@ -74,6 +74,21 @@ chg = ChemicalHyperGraph{Any}(); v = 1; che = ChemicalHyperEdge(Any[v], Any[v])
 @test vertices(chg) == [v] && nv(chg) == 1
 @test hyperedges(chg) == [che] && nhe(chg) == 1
 
+he = HyperEdge([1, 2, 3])
+replace_vertex!(he, (2 => 1))
+@test vertices(he) == [1, 1, 3]
+che = ChemicalHyperEdge([1, 2, 3], [2, 3, 4])
+replace_vertex!(che, (2 => 1))
+@test vertices(che) == [1, 1, 3, 1, 3, 4]
+hg = HyperGraph(he)
+replace_vertex!(hg, (2 => 1))
+@test vertices(hg) == [1, 3]
+@test vertices(hyperedges(hg)) == [[1, 1, 3]]
+chg = ChemicalHyperGraph(che)
+replace_vertex!(chg, (2 => 1))
+@test vertices(hg) == [1, 3]
+@test vertices(hyperedges(chg)) == [[1, 1, 3, 1, 3, 4]]
+
 # replace hyperedge, replace hyperedges -- unoriented hypergraph
 hg = HyperGraph([HyperEdge([1]), HyperEdge([2])])
 new_he = HyperEdge([1, 2])

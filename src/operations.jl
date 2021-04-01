@@ -118,6 +118,21 @@ function del_hyperedges!(hg::T, hes::AbstractVector{U}) where {T<:AbstractHyperG
 end
 del_empty_hyperedges!(hg::T) where {T<:AbstractHyperGraph} = !isempty(hg) && del_hyperedge!(hg, eltype(hyperedges(hg))())
 
+# replace a vertex in a hyperedge
+@traitfn function replace_vertex!(he::T::(!IsOriented), p::Pair) where {T<:AbstractHyperEdge}
+    replace!(vertices(he), p)
+end
+@traitfn function replace_vertex!(he::T::IsOriented, p::Pair) where {T<:AbstractHyperEdge}
+    replace!(src(he), p)
+    replace!(tgt(he), p)
+end
+function replace_vertex!(hg::T, p::Pair) where {T<:AbstractHyperGraph}
+    replace!(vertices(hg), p)
+    for he in hyperedges(hg)
+        replace_vertex!(he, p)
+    end
+end
+
 # replace hyperedge, replace hyperedges
 function replace_hyperedge!(hg::T, he::U, new_he::U) where {T<:AbstractHyperGraph, U<:AbstractHyperEdge}
     has_hyperedge(hg, he) && has_vertices(hg, vertices(new_he))

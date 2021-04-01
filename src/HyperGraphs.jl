@@ -39,7 +39,7 @@ degree_matrix, incidence_matrix,
 # operations
 add_vertex!, add_vertices!, del_vertex!, del_vertices!,
 add_hyperedge!, add_hyperedges!, del_hyperedge!, del_hyperedges!, del_empty_hyperedges!,
-replace_hyperedge!, replace_hyperedges!,
+replace_vertex!, replace_hyperedge!, replace_hyperedges!,
 update_weight!, set_all_weights!,
 merge,
 subhypergraph,
