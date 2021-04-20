@@ -2,7 +2,14 @@
 
 # add vertex, add vertices
 function check_can_add_vertex(hg::T, v::U) where {T<:AbstractHyperGraph, U}
-    eltype(hg) !== Any && !isequal(eltype(hg), U) && error("hypergraph of type $(eltype(hg)) but vertex of type $U")
+    hg_eltype = eltype(hg)
+    if hg_eltype !== Any
+        if !isa(hg_eltype, Union)
+            !isequal(hg_eltype, U) && error("hypergraph of type $hg_eltype but vertex of type $U")
+        elseif isa(hg_eltype, Union)
+            !(U <: hg_eltype) && error("vertex of type $U is not a subtype of hypergraph type")
+        end
+    end
     has_vertex(hg, v) && error("vertex $v already in hypergraph")
     true
 end
