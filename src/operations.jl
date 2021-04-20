@@ -1,8 +1,8 @@
 ## bang functions ##
 
 # add vertex, add vertices
-function check_can_add_vertex(hg::T, v) where {T<:AbstractHyperGraph}
-    eltype(hg) !== Any && !isequal(eltype(hg), eltype(v)) && error("hypergraph of type $(eltype(hg)) but vertex of type $(typeof(v))")
+function check_can_add_vertex(hg::T, v::U) where {T<:AbstractHyperGraph, U}
+    eltype(hg) !== Any && !isequal(eltype(hg), U) && error("hypergraph of type $(eltype(hg)) but vertex of type $U")
     has_vertex(hg, v) && error("vertex $v already in hypergraph")
     true
 end
