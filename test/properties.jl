@@ -5,10 +5,11 @@ e = HyperEdge(vertices_e)
 vertices_es = [[1, 2, 3], [2, 3, 4]]
 es = [HyperEdge(vertices_es[1]), HyperEdge(vertices_es[2])]
 @test cardinalities(es) == [3, 3]
+@test cardinalities(HyperGraph(es)) == [3, 3]
 @test cardinality(HyperEdge([1, 1])) == 2 # cardinality of a self-loop is 2
 srcs = [[1], [4]]; tgts = [[1, 2, 3], [2, 3, 4]]
 ches = [ChemicalHyperEdge(src, tgt) for (src, tgt) in zip(srcs, tgts)]
-@test length.(ches) == cardinalities(ches) == [4, 4]
+@test length.(ches) == cardinalities(ches) == cardinalities(ChemicalHyperGraph(ches)) == [4, 4]
 @test cardinality(ChemicalHyperEdge(["X"], ["X"])) == 2 # cardinality of a self-loop is 2
 @test nsrcs(ches[1]) == nsrcs(ches[2]) == 1
 @test ntgts(ches[1]) == ntgts(ches[2]) == 3
@@ -22,12 +23,12 @@ x = HyperGraph(vertices_e, es)
 @test order(x) == 3
 @test hypergraph_size(x) == 6
 @test size(x) == (3, 2)
-@test hypergraph_rank(x) == 2
+@test rank(x) == co_rank(x) == 3
 vertices_chx = [1, 2, 3, 4]
 chx = ChemicalHyperGraph(vertices_chx, ches)
 @test nv(chx) == length(vertices_chx)
 @test nhe(chx) == length(ches)
-@test hypergraph_rank(chx) == 2
+@test rank(chx) == co_rank(chx) == 4
 
 # vertices properties
 @test degree(x, 1) == 1

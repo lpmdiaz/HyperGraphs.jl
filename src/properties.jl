@@ -68,6 +68,7 @@ degrees(x::T) where {T<:AbstractHyperGraph} = degrees(x, vertices(x))
 Base.length(e::T) where {T<:AbstractHyperEdge} = length(vertices(e))
 cardinality(e::T) where {T<:AbstractHyperEdge} = length(e)
 cardinalities(es::AbstractVector{T}) where {T<:AbstractHyperEdge} = cardinality.(es)
+cardinalities(x::T) where {T<:AbstractHyperGraph} = cardinalities(hyperedges(x))
 
 # number of source and of target objects
 @traitfn nsrcs(e::T::IsOriented) where {T<:AbstractHyperEdge} = length(objects(e.src))
@@ -82,8 +83,9 @@ nhe(x::T) where {T<:AbstractHyperGraph} = length(hyperedges(x))
 # extending Base.size
 Base.size(x::T) where {T<:AbstractHyperGraph} = (nv(x), nhe(x))
 
-# rank and order of hypergraph
-hypergraph_rank(x::T) where {T<:AbstractHyperGraph} = maximum(degrees(x))
+# rank, co-rank, and order of hypergraph
+rank(x::T) where {T<:AbstractHyperGraph} = maximum(cardinalities(x))
+co_rank(x::T) where {T<:AbstractHyperGraph} = minimum(cardinalities(x))
 order(x::T) where {T<:AbstractHyperGraph} = nv(x)
 
 # size and volume of hypergraph
