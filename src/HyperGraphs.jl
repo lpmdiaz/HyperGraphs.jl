@@ -47,7 +47,7 @@ subhypergraph,
 # properties
 degree, indegree, outdegree, degrees, indegrees, outdegrees, # vertices properties
 length, cardinality, cardinalities, nsrcs, ntgts, # hyperedges properties
-nv, nhe, rank, co_rank, order, hypergraph_size, volume, # hypergraphs properties
+nv, nhe, delta, Δ, rank, co_rank, order, hypergraph_size, volume, # hypergraphs properties
 
 # queries: Boolean
 has_vertex, has_vertices, has_hyperedge, has_hyperedges,

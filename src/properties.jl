@@ -88,6 +88,15 @@ nhe(x::T) where {T<:AbstractHyperGraph} = length(hyperedges(x))
 # extending Base.size
 Base.size(x::T) where {T<:AbstractHyperGraph} = (nv(x), nhe(x))
 
+# maximum degree of a hypergraphs
+"""
+    delta(x)
+
+The maximum degree delta or Δ of a hypergraph `x` is the maximum degree over its vertices [Berge1989, Hellmuth2012].
+"""
+delta(x::T) where {T<:AbstractHyperGraph} = maximum(degrees(x))
+Δ(x::T) where {T<:AbstractHyperGraph} = delta(x)
+
 # rank, co-rank, and order of hypergraph
 """
     rank(x)
@@ -105,4 +114,4 @@ order(x::T) where {T<:AbstractHyperGraph} = nv(x)
 
 # size and volume of hypergraph
 hypergraph_size(x::T) where {T<:AbstractHyperGraph} = sum(cardinalities(hyperedges(x)))
-volume(x::T, vs::AbstractVector) where {T<:AbstractHyperGraph} = has_vertices(x, vs) ? sum(degrees(x, vs)) : error("vertices not in hypergraph")
+volume(x::T) where {T<:AbstractHyperGraph} = sum(degrees(x))

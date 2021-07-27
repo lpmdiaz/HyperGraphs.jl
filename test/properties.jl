@@ -14,7 +14,6 @@ ches = [ChemicalHyperEdge(src, tgt) for (src, tgt) in zip(srcs, tgts)]
 @test nsrcs(ches[1]) == nsrcs(ches[2]) == 1
 @test ntgts(ches[1]) == ntgts(ches[2]) == 3
 @test nsrcs(ches[1]) + ntgts(ches[1]) == length(ches[1])
-@test nsrcs(ches[1]) + ntgts(ches[1]) == length(ches[1])
 
 # hypergraphs properties
 x = HyperGraph(vertices_e, es)
@@ -28,6 +27,8 @@ vertices_chx = [1, 2, 3, 4]
 chx = ChemicalHyperGraph(vertices_chx, ches)
 @test nv(chx) == length(vertices_chx)
 @test nhe(chx) == length(ches)
+@test delta(x) == Δ(x) == 2
+@test delta(chx) == Δ(chx) == 2
 @test rank(chx) == co_rank(chx) == 4
 
 # vertices properties
@@ -36,7 +37,7 @@ chx = ChemicalHyperGraph(vertices_chx, ches)
 @test degrees(x) == [1, 2, 2]
 @test degrees(HyperGraph([HyperEdge([1, 1, 2, 3]), HyperEdge([2, 3, 4])])) == [2, 2, 2, 1]
 @test degree(HyperGraph(HyperEdge([1, 1])), 1) == 2 # degree of a loop is 2
-@test volume(x, vertices(x)) == 5
+@test volume(x) == 5
 @test degree(chx, 1) == 2
 @test degrees(ChemicalHyperGraph([ChemicalHyperEdge([1], [1]), ChemicalHyperEdge([2], [1])])) == [3, 1]
 @test outdegree(chx, 1) == 1
@@ -47,4 +48,4 @@ chx = ChemicalHyperGraph(vertices_chx, ches)
 @test indegrees(chx) == [1, 2, 2, 1]
 @test indegrees(chx) .+ outdegrees(chx) == degrees(chx)
 @test degree(ChemicalHyperGraph(ChemicalHyperEdge([1], [1])), 1) == 2 # degree of a loop is 2
-@test volume(chx, vertices(chx)) == 8
+@test volume(chx) == 8
