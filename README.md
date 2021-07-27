@@ -86,6 +86,10 @@ Note a potential future breaking change about the behaviour of `src` and `tgt`: 
 
 ## References
 
+<a id="Berge1989"></a>[Berge1989] -- Berge, C. (1989). _Hypergraphs: combinatorics of finite sets_. Amsterdam, New York, Oxford, Tokyo: Elsevier B.V.
+
+<a id="Bretto2013"></a>[Bretto2013] -- Bretto, A. (2013). _Hypergraph Theory: An Introduction_. Mathematical Engineering (Vol. 11). Heidelberg: Springer. [[doi]](https://doi.org/10.1007/978-3-319-00080-0)
+
 <a id="Chen2018"></a>[Chen2018] --
 Chen, G., Liu, V., Robinson, E., Rusnak, L. J., & Wang, K. (2018). A characterization of oriented hypergraphic Laplacian and adjacency matrix coefficients. _Linear Algebra and Its Applications_, 556, 323–341. [[doi]](https://doi.org/10.1016/j.laa.2018.07.012)
 

@@ -58,7 +58,7 @@ has_loops(x::AbstractHyperGraph) = any(isloop.(hyperedges(x)))
 """
     iskuniform
 
-A hypergraph is k-uniform if all hyperedges have cardinality k.
+A hypergraph is k-uniform if all hyperedges have cardinality k. Equivalently, a hypergraph is k-uniform if its rank is equal to its co-rank [Berge1989, Bretto2013]; checking this is however slower than the method currently implemented.
 """
 iskuniform(x::T, k::Int) where {T<:AbstractHyperGraph} = sum(cardinalities(hyperedges(x)) .== k) == nhe(x)
 """
