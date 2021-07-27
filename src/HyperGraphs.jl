@@ -1,7 +1,7 @@
 module HyperGraphs
 
 using SimpleTraits.SimpleTraits
-using LinearAlgebra
+using LinearAlgebra: Diagonal
 
 include("core.jl")
 include("conversions.jl")
