@@ -41,51 +41,51 @@ function outdegree end
 function outdegrees end
 
 # internal function to deal with all cases
-function _degree(hg::T, v, f::Function) where {T<:AbstractHyperGraph}
-    has_vertex(hg, v) ? sum([num_has_vertex(he, v, f=f) for he in hyperedges(hg)]) : error("vertex $v not found in hypergraph vertices")
+function _degree(x::T, v, f::Function) where {T<:AbstractHyperGraph}
+    has_vertex(x, v) ? sum([num_has_vertex(e, v, f=f) for e in hyperedges(x)]) : error("vertex $v not found in hypergraph vertices")
 end
 
 # the degree of a vertex in a hypergraph
-degree(hg::T, v) where {T<:AbstractHyperGraph} = _degree(hg, v, vertices)
+degree(x::T, v) where {T<:AbstractHyperGraph} = _degree(x, v, vertices)
 
 # the in- and outdegree of a vertex in an oriented hypergraph
-@traitfn indegree(hg::T::IsOriented, v) where {T<:AbstractHyperGraph} = _degree(hg, v, tgt)
-@traitfn outdegree(hg::T::IsOriented, v) where {T<:AbstractHyperGraph} = _degree(hg, v, src)
+@traitfn indegree(x::T::IsOriented, v) where {T<:AbstractHyperGraph} = _degree(x, v, tgt)
+@traitfn outdegree(x::T::IsOriented, v) where {T<:AbstractHyperGraph} = _degree(x, v, src)
 
 # degree functions for vectors of vertices
-degrees(hg::T, vs::AbstractVector) where {T<:AbstractHyperGraph} = [degree(hg, v) for v in vs]
-@traitfn indegrees(hg::T::IsOriented, vs::AbstractVector) where {T<:AbstractHyperGraph} = [indegree(hg, v) for v in vs]
-@traitfn outdegrees(hg::T::IsOriented, vs::AbstractVector) where {T<:AbstractHyperGraph} = [outdegree(hg, v) for v in vs]
+degrees(x::T, vs::AbstractVector) where {T<:AbstractHyperGraph} = [degree(x, v) for v in vs]
+@traitfn indegrees(x::T::IsOriented, vs::AbstractVector) where {T<:AbstractHyperGraph} = [indegree(x, v) for v in vs]
+@traitfn outdegrees(x::T::IsOriented, vs::AbstractVector) where {T<:AbstractHyperGraph} = [outdegree(x, v) for v in vs]
 
 # degree functions for hypergraphs
-degrees(hg::T) where {T<:AbstractHyperGraph} = degrees(hg, vertices(hg))
-@traitfn indegrees(hg::T::IsOriented) where {T<:AbstractHyperGraph} = indegrees(hg, vertices(hg))
-@traitfn outdegrees(hg::T::IsOriented) where {T<:AbstractHyperGraph} = outdegrees(hg, vertices(hg))
+degrees(x::T) where {T<:AbstractHyperGraph} = degrees(x, vertices(x))
+@traitfn indegrees(x::T::IsOriented) where {T<:AbstractHyperGraph} = indegrees(x, vertices(x))
+@traitfn outdegrees(x::T::IsOriented) where {T<:AbstractHyperGraph} = outdegrees(x, vertices(x))
 
 ## hyperedges properties ##
 
 # length, cardinality
-Base.length(he::T) where {T<:AbstractHyperEdge} = length(vertices(he))
-cardinality(he::T) where {T<:AbstractHyperEdge} = length(he)
-cardinalities(hes::AbstractVector{T}) where {T<:AbstractHyperEdge} = cardinality.(hes)
+Base.length(e::T) where {T<:AbstractHyperEdge} = length(vertices(e))
+cardinality(e::T) where {T<:AbstractHyperEdge} = length(e)
+cardinalities(es::AbstractVector{T}) where {T<:AbstractHyperEdge} = cardinality.(es)
 
 # number of source and of target objects
-@traitfn nsrcs(he::T::IsOriented) where {T<:AbstractHyperEdge} = length(objects(he.src))
-@traitfn ntgts(he::T::IsOriented) where {T<:AbstractHyperEdge} = length(objects(he.tgt))
+@traitfn nsrcs(e::T::IsOriented) where {T<:AbstractHyperEdge} = length(objects(e.src))
+@traitfn ntgts(e::T::IsOriented) where {T<:AbstractHyperEdge} = length(objects(e.tgt))
 
 ## hypergraphs properties ##
 
 # number of vertices, of hyperedges
-nv(hg::T) where {T<:AbstractHyperGraph} = length(vertices(hg))
-nhe(hg::T) where {T<:AbstractHyperGraph} = length(hyperedges(hg))
+nv(x::T) where {T<:AbstractHyperGraph} = length(vertices(x))
+nhe(x::T) where {T<:AbstractHyperGraph} = length(hyperedges(x))
 
 # extending Base.size
-Base.size(hg::T) where {T<:AbstractHyperGraph} = (nv(hg), nhe(hg))
+Base.size(x::T) where {T<:AbstractHyperGraph} = (nv(x), nhe(x))
 
 # rank and order of hypergraph
-hypergraph_rank(hg::T) where {T<:AbstractHyperGraph} = maximum(degrees(hg))
-order(hg::T) where {T<:AbstractHyperGraph} = nv(hg)
+hypergraph_rank(x::T) where {T<:AbstractHyperGraph} = maximum(degrees(x))
+order(x::T) where {T<:AbstractHyperGraph} = nv(x)
 
 # size and volume of hypergraph
-hypergraph_size(hg::T) where {T<:AbstractHyperGraph} = sum(cardinalities(hyperedges(hg)))
-volume(hg::T, vs::AbstractVector) where {T<:AbstractHyperGraph} = has_vertices(hg, vs) ? sum(degrees(hg, vs)) : error("vertices not in hypergraph")
+hypergraph_size(x::T) where {T<:AbstractHyperGraph} = sum(cardinalities(hyperedges(x)))
+volume(x::T, vs::AbstractVector) where {T<:AbstractHyperGraph} = has_vertices(x, vs) ? sum(degrees(x, vs)) : error("vertices not in hypergraph")

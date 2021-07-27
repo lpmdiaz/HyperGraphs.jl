@@ -32,7 +32,7 @@ end
 HyperEdge(v::T) where {T} = HyperEdge{T}([v])
 HyperEdge{T}() where {T} = HyperEdge{T}([])
 HyperEdge() = HyperEdge{Any}([])
-Base.:(==)(he1::HyperEdge, he2::HyperEdge) = isequal(vertices(he1), vertices(he2))
+Base.:(==)(e1::HyperEdge, e2::HyperEdge) = isequal(vertices(e1), vertices(e2))
 Base.eltype(::HyperEdge{T}) where {T} = T
 
 """
@@ -42,22 +42,22 @@ A type that represents unoriented, unweighted hypergraphs.
 
 # Fields
 - `V`: a set of vertices
-- `HE`: a set of hyperedges
+- `E`: a set of hyperedges
 """
 mutable struct HyperGraph{T} <: AbstractHyperGraph
     V::AbstractVector{T}
-    HE::AbstractVector{HyperEdge{T}}
+    E::AbstractVector{HyperEdge{T}}
 end
-HyperGraph(v::T, hes::AbstractVector{HyperEdge{T}}) where {T} = HyperGraph{T}([v], hes)
-HyperGraph(vs::AbstractVector{T}, he::HyperEdge{T}) where {T} = HyperGraph{T}(vs, [he])
-HyperGraph(v::T, he::HyperEdge{T}) where {T} = HyperGraph{T}([v], [he])
-HyperGraph(hes::AbstractVector{HyperEdge{T}}) where {T} = HyperGraph(union(vertices(hes)...), hes)
-HyperGraph(he::HyperEdge{T}) where {T} = HyperGraph(union(vertices(he)), he)
+HyperGraph(v::T, es::AbstractVector{HyperEdge{T}}) where {T} = HyperGraph{T}([v], es)
+HyperGraph(vs::AbstractVector{T}, e::HyperEdge{T}) where {T} = HyperGraph{T}(vs, [e])
+HyperGraph(v::T, e::HyperEdge{T}) where {T} = HyperGraph{T}([v], [e])
+HyperGraph(es::AbstractVector{HyperEdge{T}}) where {T} = HyperGraph(union(vertices(es)...), es)
+HyperGraph(e::HyperEdge{T}) where {T} = HyperGraph(union(vertices(e)), e)
 HyperGraph{T}() where {T} = HyperGraph{T}([], [])
 HyperGraph() = HyperGraph{Any}([], [])
-(::Type{HyperGraph{T}})(he::HyperEdge{T}) where {T} = HyperGraph(he)
-(::Type{HyperGraph{T}})(hes::AbstractVector{HyperEdge{T}}) where {T} = HyperGraph(hes)
-Base.:(==)(hg1::HyperGraph, hg2::HyperGraph) = isequal(vertices(hg1), vertices(hg2)) && isequal(hyperedges(hg1), hyperedges(hg2))
+(::Type{HyperGraph{T}})(e::HyperEdge{T}) where {T} = HyperGraph(e)
+(::Type{HyperGraph{T}})(es::AbstractVector{HyperEdge{T}}) where {T} = HyperGraph(es)
+Base.:(==)(x1::HyperGraph, x2::HyperGraph) = isequal(vertices(x1), vertices(x2)) && isequal(hyperedges(x1), hyperedges(x2))
 
 Base.eltype(::HyperGraph{T}) where {T} = T
 
@@ -119,14 +119,14 @@ ChemicalHyperEdge(inputs::SpeciesSet{T}, outputs::AbstractVector{T}) where {T} =
 ChemicalHyperEdge{T}() where {T} = ChemicalHyperEdge{T}(SpeciesSet{T}(), SpeciesSet{T}(), one(Int))
 ChemicalHyperEdge() = ChemicalHyperEdge{Any}()
 (::Type{ChemicalHyperEdge{T}})(inputs, outputs) where {T} = ChemicalHyperEdge(inputs, outputs)
-inputs(che::ChemicalHyperEdge) = src(che)
-outputs(che::ChemicalHyperEdge) = tgt(che)
-rate(che::ChemicalHyperEdge) = weight(che)
-src_stoich(che::ChemicalHyperEdge) = src_multiplicities(che)
-tgt_stoich(che::ChemicalHyperEdge) = tgt_multiplicities(che)
-inputs_stoich(che::ChemicalHyperEdge) = src_stoich(che)
-outputs_stoich(che::ChemicalHyperEdge) = tgt_stoich(che)
-Base.:(==)(che1::ChemicalHyperEdge, che2::ChemicalHyperEdge) = isequal(inputs(che1), inputs(che2)) && isequal(outputs(che1), outputs(che2)) && isequal(rate(che1), rate(che2))
+inputs(e::ChemicalHyperEdge) = src(e)
+outputs(e::ChemicalHyperEdge) = tgt(e)
+rate(e::ChemicalHyperEdge) = weight(e)
+src_stoich(e::ChemicalHyperEdge) = src_multiplicities(e)
+tgt_stoich(e::ChemicalHyperEdge) = tgt_multiplicities(e)
+inputs_stoich(e::ChemicalHyperEdge) = src_stoich(e)
+outputs_stoich(e::ChemicalHyperEdge) = tgt_stoich(e)
+Base.:(==)(e1::ChemicalHyperEdge, e2::ChemicalHyperEdge) = isequal(inputs(e1), inputs(e2)) && isequal(outputs(e1), outputs(e2)) && isequal(rate(e1), rate(e2))
 Base.eltype(::ChemicalHyperEdge{T}) where {T} = T
 
 """
@@ -136,20 +136,20 @@ A type that represents oriented, weighted hypergraphs, in the context of chemica
 
 # Fields
 - `V`: a set of vertices
-- `HE`: a set of chemical hyperedges
+- `E`: a set of chemical hyperedges
 """
 mutable struct ChemicalHyperGraph{T} <: AbstractHyperGraph
     V::AbstractVector{T}
-    HE::AbstractVector{ChemicalHyperEdge{T}}
+    E::AbstractVector{ChemicalHyperEdge{T}}
 end
-ChemicalHyperGraph(vs::AbstractVector{T}, he::ChemicalHyperEdge{T}) where {T} = ChemicalHyperGraph{T}(vs, [he])
-ChemicalHyperGraph(he::ChemicalHyperEdge{T}) where {T} = ChemicalHyperGraph{T}(union(vertices(he)), [he])
-ChemicalHyperGraph(hes::AbstractVector{ChemicalHyperEdge{T}}) where {T} = ChemicalHyperGraph(union(vertices(hes)...), hes)
-(::Type{ChemicalHyperGraph{T}})(he::ChemicalHyperEdge{T}) where {T} = ChemicalHyperGraph(he)
-(::Type{ChemicalHyperGraph{T}})(hes::AbstractVector{ChemicalHyperEdge{T}}) where {T} = ChemicalHyperGraph(hes)
+ChemicalHyperGraph(vs::AbstractVector{T}, e::ChemicalHyperEdge{T}) where {T} = ChemicalHyperGraph{T}(vs, [e])
+ChemicalHyperGraph(e::ChemicalHyperEdge{T}) where {T} = ChemicalHyperGraph{T}(union(vertices(e)), [e])
+ChemicalHyperGraph(es::AbstractVector{ChemicalHyperEdge{T}}) where {T} = ChemicalHyperGraph(union(vertices(es)...), es)
+(::Type{ChemicalHyperGraph{T}})(e::ChemicalHyperEdge{T}) where {T} = ChemicalHyperGraph(e)
+(::Type{ChemicalHyperGraph{T}})(es::AbstractVector{ChemicalHyperEdge{T}}) where {T} = ChemicalHyperGraph(es)
 ChemicalHyperGraph{T}() where {T} = ChemicalHyperGraph{T}([], [])
 ChemicalHyperGraph() = ChemicalHyperGraph{Any}([], [])
-Base.:(==)(hg1::ChemicalHyperGraph, hg2::ChemicalHyperGraph) = isequal(vertices(hg1), vertices(hg2)) && isequal(hyperedges(hg1), hyperedges(hg2))
+Base.:(==)(x1::ChemicalHyperGraph, x2::ChemicalHyperGraph) = isequal(vertices(x1), vertices(x2)) && isequal(hyperedges(x1), hyperedges(x2))
 Base.eltype(::ChemicalHyperGraph{T}) where {T} = T
 
 ## traits ##
@@ -158,8 +158,8 @@ Base.eltype(::ChemicalHyperGraph{T}) where {T} = T
 const AbstractStructs = Union{AbstractHyperGraph, AbstractHyperEdge}
 
 # fundamental traits
-@traitdef IsOriented{hg <: AbstractStructs}
-@traitdef IsWeighted{hg <: AbstractStructs}
+@traitdef IsOriented{X <: AbstractStructs}
+@traitdef IsWeighted{X <: AbstractStructs}
 
 # functions and default behaviour: orientation
 @traitimpl IsOriented{T} <- isoriented(T)
@@ -188,23 +188,23 @@ objects(i::T) where {T<:AbstractIncidenceSet} = i.objs
 multiplicities(i::T) where {T<:AbstractIncidenceSet} = i.mults
 
 # vertices of hyperedges, of hypergraphs
-@traitfn vertices(he::T::(!IsOriented)) where {T<:AbstractHyperEdge} = he.V
-@traitfn vertices(he::T::IsOriented) where {T<:AbstractHyperEdge} = vcat(src(he), tgt(he))
-vertices(hes::AbstractVector{T}) where {T<:AbstractHyperEdge} = vertices.(hes)
-vertices(hg::T) where {T<:AbstractHyperGraph} = hg.V
+@traitfn vertices(e::T::(!IsOriented)) where {T<:AbstractHyperEdge} = e.V
+@traitfn vertices(e::T::IsOriented) where {T<:AbstractHyperEdge} = vcat(src(e), tgt(e))
+vertices(es::AbstractVector{T}) where {T<:AbstractHyperEdge} = vertices.(es)
+vertices(x::T) where {T<:AbstractHyperGraph} = x.V
 
 # hyperedges of hypergraphs
-hyperedges(hg::T) where {T<:AbstractHyperGraph} = hg.HE
+hyperedges(x::T) where {T<:AbstractHyperGraph} = x.E
 
 # source and target of oriented hyperedges
-@traitfn src(he::T::IsOriented) where {T<:AbstractHyperEdge} = objects(he.src)
-@traitfn tgt(he::T::IsOriented) where {T<:AbstractHyperEdge} = objects(he.tgt)
-src(hes::AbstractVector{T}) where {T<:AbstractHyperEdge} = [src(he) for he in hes]
-tgt(hes::AbstractVector{T}) where {T<:AbstractHyperEdge} = [tgt(he) for he in hes]
+@traitfn src(e::T::IsOriented) where {T<:AbstractHyperEdge} = objects(e.src)
+@traitfn tgt(e::T::IsOriented) where {T<:AbstractHyperEdge} = objects(e.tgt)
+src(es::AbstractVector{T}) where {T<:AbstractHyperEdge} = [src(e) for e in es]
+tgt(es::AbstractVector{T}) where {T<:AbstractHyperEdge} = [tgt(e) for e in es]
 
 # multiplicities of oriented hyperedges
-@traitfn src_multiplicities(he::T::IsOriented) where {T<:AbstractHyperEdge} = multiplicities(he.src)
-@traitfn tgt_multiplicities(he::T::IsOriented) where {T<:AbstractHyperEdge} = multiplicities(he.tgt)
+@traitfn src_multiplicities(e::T::IsOriented) where {T<:AbstractHyperEdge} = multiplicities(e.src)
+@traitfn tgt_multiplicities(e::T::IsOriented) where {T<:AbstractHyperEdge} = multiplicities(e.tgt)
 
 # weight of weighted hyperedges
-@traitfn weight(he::T::IsWeighted) where {T} = he.weight
+@traitfn weight(e::T::IsWeighted) where {T} = e.weight

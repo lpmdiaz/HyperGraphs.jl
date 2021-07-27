@@ -12,23 +12,25 @@ One aim would be to have the trait system be automatically generated: because tr
 
 Another aim would be to represent heterogeneous relationships within the same hypergraph. This relies again on the fact that most flavours of (hyper)graphs are a specific case of oriented, weighted hypergraphs (e.g. an unweighted edge is a weighted edge with weight 1; a directed graph is a special case of an oriented graph, etc.), implying that the same hypergraph may be made up of different flavours of hypergraphs (e.g. organised in neighborhoods). A concrete example would be a hypergraph describing directed relationships, with the exception of a small number of oriented ones; it should be possible to represent this information in a hypergraph made up of both directed and oriented hyperedges, and rely on promotion / conversions between these flavours to make them interact. Taken one step further, this would allow to connect distinct modelling formalisms that can be encoded as hypergraphs; as such, hypergraphs would serve as a fundamental representation of e.g. chemical reaction networks, Petri nets, etc. and relationships between hypergraphs flavours would allow to switch between modelling formalisms.
 
-## Naming rules
+## Notation and naming rules
 
-In the code, `hg` and `hgs` refer to one and several hypergraphs, respectively; the same applies for `he` and `hes` with hyperedges, and for `v` and `vs` with vertices.
+In the code, `x` and `xs` refer to one and several hypergraphs, respectively; the same applies for `e` and `es` with hyperedges, and for `v` and `vs` with vertices.
 
 The current idea to allow for natural extension of the core functions is to respect a set of standard field names when defining a new custom concrete type. If custom field names are needed, these should be explicitly connected to core methods (`vertices` and `hyperedges` mainly). Currently, field names should be:
 
 - `V`, the set of vertices in a hypergraph and a hyperedge
-- `HE`, the set of hyperedges in a hypergraph
+- `E`, the set of hyperedges in a hypergraph
 - `src`, the set of source vertices in an oriented hyperedge
 - `tgt`, the set of target vertices in an oriented hyperedge
 - `objs`, the objects of an incidence
 - `mults`, the multiplicities of the objects of an incidence
 - `w`, the weight of a weighted hyperedge
 
-Then, custom names are built on top e.g. `rate(che::ChemicalHyperEdge) = weight(che)` (which is already implemented).
+Then, custom names are built on top e.g. `rate(e::ChemicalHyperEdge) = weight(e)` (which is already implemented).
 
-Note a potential future breaking change about the behaviour of `src` and `tgt`: these currently return the objects of the set of incidences but may return the set of incidences themselves in the future, depending on what makes sense. This also means that currently, the extension of `Base.==` does not check for equal multiplicity (which may be slightly incorrect).
+These symbols were chosen to differentiate hypergraphs from graphs (all graphs are hypergraphs but not all hypergraphs are graphs), and so a hypergraph is defined as X = (V, E). An alternative option was to name hypergraphs with the letter H; however, following that logic would have meant changing the symbol for hyperedges too, which would have been impractical (also H). This way, using X emphasises the difference between hypergraphs and graphs and using E for edges retains some continuity with ordinary graphs notation G = (V, E).
+
+Functions are defined on hypergraphs `x` and edges `e` for consistency. It may be useful to add some clarity and differentiate between variables though, and so a chemical hypergraph may be defined as `chx` and a chemical hyperedge as `che`.
 
 ## Some notes on the code
 
@@ -74,11 +76,13 @@ Functions only do what their name implies, and so if a loop is undesirable in a 
 
 _Weak_ deletion only deletes incidences, whereas _strong_ deletion deletes any object incident on the object(s) being deleted; this means that e.g. weak vertex deletion removes any occurence of the given vertex in the hyperedges incident on that vertex but does not delete those hyperedges [[Chen2018]](#Chen2018), [[Rusnak2013]](#Rusnak2013). Note: vertex deletion is (incidence) dual to edge deletion [[Rusnak2013]](#Rusnak2013).
 
-Note: currently, the internal function `_del_vertex!(he)` must have two methods: one for unoriented and one for oriented hyperedges; this is because the former method only needs to remove a vertex from `vertices(he)` when the latter needs to remove it from both the source and target sets (and both objects and multiplicities), which does not naturally work with `vertices` of an oriented hyperedge. This is somewhat messy; ideally, as mentioned above, methods would be built automatically from the hyperedge flavour (here oriented vs. unoriented), via traits.
+Note: currently, the internal function `_del_vertex!(e)` must have two methods: one for unoriented and one for oriented hyperedges; this is because the former method only needs to remove a vertex from `vertices(e)` when the latter needs to remove it from both the source and target sets (and both objects and multiplicities), which does not naturally work with `vertices` of an oriented hyperedge. This is somewhat messy; ideally, as mentioned above, methods would be built automatically from the hyperedge flavour (here oriented vs. unoriented), via traits.
 
 ## Future developments
 
 This is mainly a personal repository to play around with hypergraphs, but I do plan to add more functionalities over time.
+
+Note a potential future breaking change about the behaviour of `src` and `tgt`: these currently return the objects of the set of incidences but may return the set of incidences themselves in the future, depending on what makes sense. This also means that currently, the extension of `Base.==` does not check for equal multiplicity (which may be slightly incorrect).
 
 ## References
 

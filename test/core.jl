@@ -8,15 +8,15 @@ HyperEdge{Int8}()
 HyperEdge([:a, :b])
 
 # hyperedges: functions
-vertices_he = [1, 2, 3]
-he = HyperEdge(vertices_he)
-@test vertices(he) == vertices_he
+vertices_e = [1, 2, 3]
+e = HyperEdge(vertices_e)
+@test vertices(e) == vertices_e
 @test vertices(HyperEdge([1, :∅])) == [1, :∅]
-vertices_hes = [[1, 2, 3], [2, 3, 4]]
-hes = [HyperEdge(vertices_hes[1]), HyperEdge(vertices_hes[2])]
-@test vertices(hes) == vertices_hes
-@test eltype(he) == Int64
-@test HyperEdge([1, 2, 3]) == he
+vertices_es = [[1, 2, 3], [2, 3, 4]]
+es = [HyperEdge(vertices_es[1]), HyperEdge(vertices_es[2])]
+@test vertices(es) == vertices_es
+@test eltype(e) == Int64
+@test HyperEdge([1, 2, 3]) == e
 
 # hypergraphs: constructors
 HyperGraph()
@@ -26,15 +26,15 @@ HyperGraph([HyperEdge([1, 1]), HyperEdge([2, 2])])
 HyperGraph(HyperEdge([1, 1]))
 @test HyperGraph([1], HyperEdge{Int}[]) == HyperGraph{Int}([1], HyperEdge[])
 @test HyperGraph(1, HyperEdge([1, 1])) == HyperGraph([1], HyperEdge([1, 1])) == HyperGraph(1, [HyperEdge([1, 1])]) == HyperGraph([1], [HyperEdge([1, 1])])
-@test HyperGraph(hes) == HyperGraph(unique(vcat(vertices_hes...)), hes)
+@test HyperGraph(es) == HyperGraph(unique(vcat(vertices_es...)), es)
 
 # hypergraphs: functions
 @test vertices(HyperGraph(HyperEdge([1, :∅]))) == [1, :∅]
-hg = HyperGraph(hes)
-@test vertices(hg) == unique(vcat(vertices_hes...)) == [1, 2, 3, 4]
-@test vertices(hyperedges(hg)) == vertices_hes
-@test hyperedges(hg) == hes
-@test eltype(hg) == eltype(hyperedges(hg)[1])
+x = HyperGraph(es)
+@test vertices(x) == unique(vcat(vertices_es...)) == [1, 2, 3, 4]
+@test vertices(hyperedges(x)) == vertices_es
+@test hyperedges(x) == es
+@test eltype(x) == eltype(hyperedges(x)[1])
 
 ## chemical hyperedges and chemical hypergraphs ##
 
@@ -87,9 +87,9 @@ ChemicalHyperGraph{String}()
 ChemicalHyperGraph()
 
 # chemical hypergraphs: functions
-vertices_chg = [1, 2, 3, 4]
-chg = ChemicalHyperGraph(vertices_chg, ches)
-@test vertices(chg) == vertices_chg
-hyperedges(chg)
-@test ChemicalHyperGraph(ches) == chg
-@test eltype(chg) == eltype(hyperedges(chg)[1])
+vertices_chx = [1, 2, 3, 4]
+chx = ChemicalHyperGraph(vertices_chx, ches)
+@test vertices(chx) == vertices_chx
+hyperedges(chx)
+@test ChemicalHyperGraph(ches) == chx
+@test eltype(chx) == eltype(hyperedges(chx)[1])

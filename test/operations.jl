@@ -1,152 +1,152 @@
 using HyperGraphs
 
 # adding and deleting vertices -- unoriented hypergraph
-hg = HyperGraph([HyperEdge([1, 2, 3]), HyperEdge([2, 3, 4])])
-@test add_vertex!(hg, 5, check=false) && has_vertex(hg, 5)
-@test_throws ErrorException add_vertex!(hg, 5) # vertex already in hypergraph
-@test_throws ErrorException add_vertex!(hg, 5.0) # type error
-@test add_vertices!(hg, [6, 7]) && has_vertices(hg, [6, 7])
-@test del_vertex!(hg , 1, weak=true) && has_hyperedge(hg, HyperEdge([2, 3])) # weak deletion of vertex retains hyperedges
-@test del_vertex!(hg, 4) && !has_hyperedge(hg, HyperEdge([2, 3, 4])) # strong deletion of vertex removes hyperedges
-@test del_vertices!(hg, [2, 3], weak=true) && !any(has_vertex(hg, [2, 3])) && has_empty_hyperedges(hg) # removing all vertices of a hyperedge weakly results in an empty hyperedge
-@test del_vertices!(hg, vertices(hg)) && !any(has_vertex(hg, [5, 6, 7])) && has_hyperedge(hg, HyperEdge(Int[])) # only an empty hyperedge left
-@test del_empty_hyperedges!(hg) && !has_empty_hyperedges(hg) && isempty(hg)
-@test add_vertices!(hg, collect(1:4))
-@test del_vertices!(hg, [1]) && add_vertices!(hg, [1]) # testing vectors with length 1
-@test add_hyperedge!(hg, HyperEdge(vertices(hg)), check=false) && has_hyperedge(hg, HyperEdge(vertices(hg))) # check is true by default but not needed here
-@test_throws ErrorException add_hyperedge!(hg, HyperEdge([10])) # can't add hyperedge if vertex not already in hypergraph
-@test add_hyperedges!(hg, [HyperEdge([1 , 2, 3]), HyperEdge([1, 2, 3])]) && has_parallel_hyperedges(hg) # add parallel hyperedge
-@test del_hyperedge!(hg, hyperedges(hg)[end]) && !has_parallel_hyperedges(hg) # removed parallel hyperedges
-@test del_hyperedges!(hg, hyperedges(hg)) && isempty(hg)
-@test del_vertices!(hg, vertices(hg)) && nv(hg) == 0
+x = HyperGraph([HyperEdge([1, 2, 3]), HyperEdge([2, 3, 4])])
+@test add_vertex!(x, 5, check=false) && has_vertex(x, 5)
+@test_throws ErrorException add_vertex!(x, 5) # vertex already in hypergraph
+@test_throws ErrorException add_vertex!(x, 5.0) # type error
+@test add_vertices!(x, [6, 7]) && has_vertices(x, [6, 7])
+@test del_vertex!(x , 1, weak=true) && has_hyperedge(x, HyperEdge([2, 3])) # weak deletion of vertex retains hyperedges
+@test del_vertex!(x, 4) && !has_hyperedge(x, HyperEdge([2, 3, 4])) # strong deletion of vertex removes hyperedges
+@test del_vertices!(x, [2, 3], weak=true) && !any(has_vertex(x, [2, 3])) && has_empty_hyperedges(x) # removing all vertices of a hyperedge weakly results in an empty hyperedge
+@test del_vertices!(x, vertices(x)) && !any(has_vertex(x, [5, 6, 7])) && has_hyperedge(x, HyperEdge(Int[])) # only an empty hyperedge left
+@test del_empty_hyperedges!(x) && !has_empty_hyperedges(x) && isempty(x)
+@test add_vertices!(x, collect(1:4))
+@test del_vertices!(x, [1]) && add_vertices!(x, [1]) # testing vectors with length 1
+@test add_hyperedge!(x, HyperEdge(vertices(x)), check=false) && has_hyperedge(x, HyperEdge(vertices(x))) # check is true by default but not needed here
+@test_throws ErrorException add_hyperedge!(x, HyperEdge([10])) # can't add hyperedge if vertex not already in hypergraph
+@test add_hyperedges!(x, [HyperEdge([1 , 2, 3]), HyperEdge([1, 2, 3])]) && has_parallel_hyperedges(x) # add parallel hyperedge
+@test del_hyperedge!(x, hyperedges(x)[end]) && !has_parallel_hyperedges(x) # removed parallel hyperedges
+@test del_hyperedges!(x, hyperedges(x)) && isempty(x)
+@test del_vertices!(x, vertices(x)) && nv(x) == 0
 
 # removing parallel hyperedges in hypergraph with only parallel hyperedges -- unoriented hypergraph
-hg = HyperGraph([HyperEdge([1, 2, 3]), HyperEdge([1, 2, 3])])
-@test del_hyperedges!(hg, hyperedges(hg)) && isempty(hg)
+x = HyperGraph([HyperEdge([1, 2, 3]), HyperEdge([1, 2, 3])])
+@test del_hyperedges!(x, hyperedges(x)) && isempty(x)
 
 # dealing with loops -- unoriented hypergraph
-hg = HyperGraph{Int}([1, 2, 3], HyperEdge[]) # initialise an empty hypergraph with some vertices
-@test add_hyperedge!(hg, HyperEdge([1, 1])) && has_loops(hg) && num_loops(hg) == 1
-@test add_hyperedges!(hg, [HyperEdge([2, 2, 2]), HyperEdge([3, 3])]) && num_loops(hg) == 3
-@test del_hyperedge!(hg, HyperEdge([1, 1])) && num_loops(hg) == 2
-@test del_hyperedges!(hg, hyperedges(hg)) && !has_loops(hg) && isempty(hg)
+x = HyperGraph{Int}([1, 2, 3], HyperEdge[]) # initialise an empty hypergraph with some vertices
+@test add_hyperedge!(x, HyperEdge([1, 1])) && has_loops(x) && num_loops(x) == 1
+@test add_hyperedges!(x, [HyperEdge([2, 2, 2]), HyperEdge([3, 3])]) && num_loops(x) == 3
+@test del_hyperedge!(x, HyperEdge([1, 1])) && num_loops(x) == 2
+@test del_hyperedges!(x, hyperedges(x)) && !has_loops(x) && isempty(x)
 
 # adding and deleting vertices -- oriented hypergraph
-chg = ChemicalHyperGraph([ChemicalHyperEdge([1], [2, 3]), ChemicalHyperEdge([2], [3, 4])])
-@test add_vertex!(chg, 5, check=false) && has_vertex(chg, 5)
-@test_throws ErrorException add_vertex!(chg, 5) # vertex already in hypergraph
-@test_throws ErrorException add_vertex!(chg, 5.0) # type error (might be bad for later developments)
-@test add_vertices!(chg, [6, 7]) && has_vertices(chg, [6, 7])
-@test del_vertex!(chg, 1, weak=true) && has_hyperedge(chg, ChemicalHyperEdge(Int[], [2, 3])) # weak deletion of vertex retains hyperedges
-@test del_vertex!(chg, 4) && !has_hyperedge(chg, ChemicalHyperEdge([2], [3, 4])) # strong deletion of vertex removes hyperedges
-@test del_vertices!(chg, [2, 3], weak=true) && !any(has_vertex(chg, [2, 3])) && has_empty_hyperedges(chg) # removing all vertices of a hyperedge weakly results in an empty hyperedge
-@test del_vertices!(chg, vertices(chg)) && !any(has_vertex(chg, [5, 6, 7])) && has_hyperedge(chg, ChemicalHyperEdge{Int}()) # only an empty hyperedge left
-@test del_empty_hyperedges!(chg) && !has_empty_hyperedges(chg) && isempty(chg)
-@test add_vertices!(chg, collect(1:4))
-@test del_vertices!(chg, [1]) && add_vertices!(chg, [1]) # testing vectors with length 1
-@test add_hyperedge!(chg, ChemicalHyperEdge(vertices(chg), vertices(chg)), check=false) && has_hyperedge(chg, ChemicalHyperEdge(vertices(chg), vertices(chg))) # check is true by default but not needed here
-@test_throws ErrorException add_hyperedge!(chg, ChemicalHyperEdge([10], [11])) # can't add hyperedge if vertex not already in hypergraph
-@test add_hyperedges!(chg, [ChemicalHyperEdge([1], [2, 3]), ChemicalHyperEdge([1], [2, 3])]) && has_parallel_hyperedges(chg) # add parallel hyperedge
-@test del_hyperedge!(chg, hyperedges(chg)[end]) && !has_parallel_hyperedges(chg) # removed parallel hyperedges
-@test del_hyperedges!(chg, hyperedges(chg)) && isempty(chg)
-@test del_vertices!(chg, vertices(chg)) && nv(chg) == 0
+chx = ChemicalHyperGraph([ChemicalHyperEdge([1], [2, 3]), ChemicalHyperEdge([2], [3, 4])])
+@test add_vertex!(chx, 5, check=false) && has_vertex(chx, 5)
+@test_throws ErrorException add_vertex!(chx, 5) # vertex already in hypergraph
+@test_throws ErrorException add_vertex!(chx, 5.0) # type error (might be bad for later developments)
+@test add_vertices!(chx, [6, 7]) && has_vertices(chx, [6, 7])
+@test del_vertex!(chx, 1, weak=true) && has_hyperedge(chx, ChemicalHyperEdge(Int[], [2, 3])) # weak deletion of vertex retains hyperedges
+@test del_vertex!(chx, 4) && !has_hyperedge(chx, ChemicalHyperEdge([2], [3, 4])) # strong deletion of vertex removes hyperedges
+@test del_vertices!(chx, [2, 3], weak=true) && !any(has_vertex(chx, [2, 3])) && has_empty_hyperedges(chx) # removing all vertices of a hyperedge weakly results in an empty hyperedge
+@test del_vertices!(chx, vertices(chx)) && !any(has_vertex(chx, [5, 6, 7])) && has_hyperedge(chx, ChemicalHyperEdge{Int}()) # only an empty hyperedge left
+@test del_empty_hyperedges!(chx) && !has_empty_hyperedges(chx) && isempty(chx)
+@test add_vertices!(chx, collect(1:4))
+@test del_vertices!(chx, [1]) && add_vertices!(chx, [1]) # testing vectors with length 1
+@test add_hyperedge!(chx, ChemicalHyperEdge(vertices(chx), vertices(chx)), check=false) && has_hyperedge(chx, ChemicalHyperEdge(vertices(chx), vertices(chx))) # check is true by default but not needed here
+@test_throws ErrorException add_hyperedge!(chx, ChemicalHyperEdge([10], [11])) # can't add hyperedge if vertex not already in hypergraph
+@test add_hyperedges!(chx, [ChemicalHyperEdge([1], [2, 3]), ChemicalHyperEdge([1], [2, 3])]) && has_parallel_hyperedges(chx) # add parallel hyperedge
+@test del_hyperedge!(chx, hyperedges(chx)[end]) && !has_parallel_hyperedges(chx) # removed parallel hyperedges
+@test del_hyperedges!(chx, hyperedges(chx)) && isempty(chx)
+@test del_vertices!(chx, vertices(chx)) && nv(chx) == 0
 
 # removing parallel hyperedges in hypergraph with only parallel hyperedges -- oriented hypergraph
-chg = ChemicalHyperGraph([ChemicalHyperEdge([1], [2, 3]), ChemicalHyperEdge([1], [2, 3])])
-@test del_hyperedges!(chg, hyperedges(chg)) && isempty(chg)
+chx = ChemicalHyperGraph([ChemicalHyperEdge([1], [2, 3]), ChemicalHyperEdge([1], [2, 3])])
+@test del_hyperedges!(chx, hyperedges(chx)) && isempty(chx)
 
 # dealing with loops - oriented hypergraph
-chg = ChemicalHyperGraph{Int}([1, 2, 3], ChemicalHyperEdge[]) # initialise an empty hypergraph with some vertices
-@test add_hyperedge!(chg, ChemicalHyperEdge([1], [1])) && has_loops(chg) && num_loops(chg) == 1
-@test add_hyperedges!(chg, [ChemicalHyperEdge([2], [2, 2]), ChemicalHyperEdge([3], [3])]) && num_loops(chg) == 3
-@test del_hyperedge!(chg, ChemicalHyperEdge([1], [1])) && num_loops(chg) == 2
-@test del_hyperedges!(chg, hyperedges(chg)) && !has_loops(chg) && isempty(chg)
+chx = ChemicalHyperGraph{Int}([1, 2, 3], ChemicalHyperEdge[]) # initialise an empty hypergraph with some vertices
+@test add_hyperedge!(chx, ChemicalHyperEdge([1], [1])) && has_loops(chx) && num_loops(chx) == 1
+@test add_hyperedges!(chx, [ChemicalHyperEdge([2], [2, 2]), ChemicalHyperEdge([3], [3])]) && num_loops(chx) == 3
+@test del_hyperedge!(chx, ChemicalHyperEdge([1], [1])) && num_loops(chx) == 2
+@test del_hyperedges!(chx, hyperedges(chx)) && !has_loops(chx) && isempty(chx)
 
 # modifying hypergraphs of type Any
-hg = HyperGraph{Any}(); v = 1; he = HyperEdge(Any[v, v])
-@test add_vertex!(hg, v)
-@test add_hyperedge!(hg, he)
-@test vertices(hg) == [v] && nv(hg) == 1
-@test hyperedges(hg) == [he] && nhe(hg) == 1
-chg = ChemicalHyperGraph{Any}(); v = 1; che = ChemicalHyperEdge(Any[v], Any[v])
-@test add_vertex!(chg, v)
-@test add_hyperedge!(chg, che)
-@test vertices(chg) == [v] && nv(chg) == 1
-@test hyperedges(chg) == [che] && nhe(chg) == 1
+x = HyperGraph{Any}(); v = 1; e = HyperEdge(Any[v, v])
+@test add_vertex!(x, v)
+@test add_hyperedge!(x, e)
+@test vertices(x) == [v] && nv(x) == 1
+@test hyperedges(x) == [e] && nhe(x) == 1
+chx = ChemicalHyperGraph{Any}(); v = 1; che = ChemicalHyperEdge(Any[v], Any[v])
+@test add_vertex!(chx, v)
+@test add_hyperedge!(chx, che)
+@test vertices(chx) == [v] && nv(chx) == 1
+@test hyperedges(chx) == [che] && nhe(chx) == 1
 
-he = HyperEdge([1, 2, 3])
-replace_vertex!(he, (2 => 1))
-@test vertices(he) == [1, 1, 3]
+e = HyperEdge([1, 2, 3])
+replace_vertex!(e, (2 => 1))
+@test vertices(e) == [1, 1, 3]
 che = ChemicalHyperEdge([1, 2, 3], [2, 3, 4])
 replace_vertex!(che, (2 => 1))
 @test vertices(che) == [1, 1, 3, 1, 3, 4]
-hg = HyperGraph(he)
-replace_vertex!(hg, (2 => 1))
-@test vertices(hg) == [1, 3]
-@test vertices(hyperedges(hg)) == [[1, 1, 3]]
-chg = ChemicalHyperGraph(che)
-replace_vertex!(chg, (2 => 1))
-@test vertices(hg) == [1, 3]
-@test vertices(hyperedges(chg)) == [[1, 1, 3, 1, 3, 4]]
+x = HyperGraph(e)
+replace_vertex!(x, (2 => 1))
+@test vertices(x) == [1, 3]
+@test vertices(hyperedges(x)) == [[1, 1, 3]]
+chx = ChemicalHyperGraph(che)
+replace_vertex!(chx, (2 => 1))
+@test vertices(x) == [1, 3]
+@test vertices(hyperedges(chx)) == [[1, 1, 3, 1, 3, 4]]
 
 # replace hyperedge, replace hyperedges -- unoriented hypergraph
-hg = HyperGraph([HyperEdge([1]), HyperEdge([2])])
-new_he = HyperEdge([1, 2])
-@test replace_hyperedge!(hg, hyperedges(hg)[1], new_he) && has_hyperedge(hg, new_he)
-new_hes = [HyperEdge([1, 1]), HyperEdge([2, 2])]
-@test replace_hyperedges!(hg, hyperedges(hg), new_hes) && has_hyperedges(hg, new_hes)
+x = HyperGraph([HyperEdge([1]), HyperEdge([2])])
+new_e = HyperEdge([1, 2])
+@test replace_hyperedge!(x, hyperedges(x)[1], new_e) && has_hyperedge(x, new_e)
+new_es = [HyperEdge([1, 1]), HyperEdge([2, 2])]
+@test replace_hyperedges!(x, hyperedges(x), new_es) && has_hyperedges(x, new_es)
 
 # replace hyperedge, replace hyperedges -- oriented hypergraph
-chg = ChemicalHyperGraph([ChemicalHyperEdge([1], [2]), ChemicalHyperEdge([2], [1])])
-new_he = ChemicalHyperEdge([1], [1])
-@test replace_hyperedge!(chg, hyperedges(chg)[1], new_he) && has_hyperedge(chg, new_he)
-new_hes = [ChemicalHyperEdge([1], [1]), ChemicalHyperEdge([2], [2])]
-@test replace_hyperedges!(chg, hyperedges(chg), new_hes) && has_hyperedges(chg, new_hes)
+chx = ChemicalHyperGraph([ChemicalHyperEdge([1], [2]), ChemicalHyperEdge([2], [1])])
+new_che = ChemicalHyperEdge([1], [1])
+@test replace_hyperedge!(chx, hyperedges(chx)[1], new_che) && has_hyperedge(chx, new_che)
+new_ches = [ChemicalHyperEdge([1], [1]), ChemicalHyperEdge([2], [2])]
+@test replace_hyperedges!(chx, hyperedges(chx), new_ches) && has_hyperedges(chx, new_ches)
 
 # weight updating
-chg = ChemicalHyperGraph([ChemicalHyperEdge(src, tgt) for (src, tgt) in zip([[1], [4]], [[1, 2, 3], [2, 3, 4]])])
-che = hyperedges(chg)[1]
-@test update_weight!(hyperedges(chg)[1], 2) == 2 && weight(che) == 2
-@test update_weight!(chg, che, 3) == 3 && weight(che) == 3
-@test set_all_weights!(chg, 4) == repeat([4], nhe(chg))
-@test all(weight.(hyperedges(chg)) .== 4)
+chx = ChemicalHyperGraph([ChemicalHyperEdge(src, tgt) for (src, tgt) in zip([[1], [4]], [[1, 2, 3], [2, 3, 4]])])
+che = hyperedges(chx)[1]
+@test update_weight!(hyperedges(chx)[1], 2) == 2 && weight(che) == 2
+@test update_weight!(chx, che, 3) == 3 && weight(che) == 3
+@test set_all_weights!(chx, 4) == repeat([4], nhe(chx))
+@test all(weight.(hyperedges(chx)) .== 4)
 
 # hypergraphs merging
-he1 = HyperEdge([1, 1])
-he2 = HyperEdge([1, 2])
-@test merge(HyperGraph(he1), HyperGraph(he2)) == HyperGraph([he1, he2])
+e1 = HyperEdge([1, 1])
+e2 = HyperEdge([1, 2])
+@test merge(HyperGraph(e1), HyperGraph(e2)) == HyperGraph([e1, e2])
 che1 = ChemicalHyperEdge([1], [1])
 che2 = ChemicalHyperEdge([1], [2])
 @test merge(ChemicalHyperGraph(che1), ChemicalHyperGraph(che2)) == ChemicalHyperGraph([che1, che2])
 
 # vertex-induced subhypergraph
-hg = HyperGraph([HyperEdge([1, 2, 3]), HyperEdge([2, 3, 4])])
-@test nv(subhypergraph(hg, 1)) == 3
-@test subhypergraph(hg, 2) == subhypergraph(hg, [2]) == hg
-@test subhypergraph(hg, 4) == subhypergraph(hg, [4])
-@test subhypergraph(hg, vertices(hg)) == hg
-chg = ChemicalHyperGraph([ChemicalHyperEdge(src, tgt) for (src, tgt) in zip([[1], [4]], [[1, 2, 3], [2, 3, 4]])])
-@test nv(subhypergraph(chg, 1)) == 3
-@test subhypergraph(chg, 2) == subhypergraph(chg, [2]) == chg
-@test subhypergraph(chg, 4) == subhypergraph(chg, [4])
-@test subhypergraph(chg, vertices(chg)) == chg
+x = HyperGraph([HyperEdge([1, 2, 3]), HyperEdge([2, 3, 4])])
+@test nv(subhypergraph(x, 1)) == 3
+@test subhypergraph(x, 2) == subhypergraph(x, [2]) == x
+@test subhypergraph(x, 4) == subhypergraph(x, [4])
+@test subhypergraph(x, vertices(x)) == x
+chx = ChemicalHyperGraph([ChemicalHyperEdge(src, tgt) for (src, tgt) in zip([[1], [4]], [[1, 2, 3], [2, 3, 4]])])
+@test nv(subhypergraph(chx, 1)) == 3
+@test subhypergraph(chx, 2) == subhypergraph(chx, [2]) == chx
+@test subhypergraph(chx, 4) == subhypergraph(chx, [4])
+@test subhypergraph(chx, vertices(chx)) == chx
 
 # hyperedge-induced subhypergraph
-@test nhe(subhypergraph(hg, hyperedges(hg)[1])) == 1
-@test nv(subhypergraph(hg, HyperEdge([1, 2]), relaxed=true)) == 2
-@test_throws ErrorException subhypergraph(hg, HyperEdge([2, 3]), relaxed=true) # subhyperedge is not unique
-@test subhypergraph(hg, hyperedges(hg)) == hg
-@test vertices(subhypergraph(hg, [HyperEdge([1, 2]), HyperEdge([3, 4])], relaxed=true)) == vertices(hg)
-@test nhe(subhypergraph(chg, hyperedges(chg)[1])) == 1
-@test nv(subhypergraph(chg, ChemicalHyperEdge([1], [2]), relaxed=true)) == 2
-@test_throws ErrorException subhypergraph(chg, ChemicalHyperEdge(Int[], [2, 3]), relaxed=true) # subhyperedge is not unique
-@test subhypergraph(chg, hyperedges(chg)) == chg
-@test vertices(subhypergraph(chg, [ChemicalHyperEdge(Int[], [1, 2]), ChemicalHyperEdge(Int[], [3, 4])], relaxed=true)) == vertices(chg)
+@test nhe(subhypergraph(x, hyperedges(x)[1])) == 1
+@test nv(subhypergraph(x, HyperEdge([1, 2]), relaxed=true)) == 2
+@test_throws ErrorException subhypergraph(x, HyperEdge([2, 3]), relaxed=true) # subhyperedge is not unique
+@test subhypergraph(x, hyperedges(x)) == x
+@test vertices(subhypergraph(x, [HyperEdge([1, 2]), HyperEdge([3, 4])], relaxed=true)) == vertices(x)
+@test nhe(subhypergraph(chx, hyperedges(chx)[1])) == 1
+@test nv(subhypergraph(chx, ChemicalHyperEdge([1], [2]), relaxed=true)) == 2
+@test_throws ErrorException subhypergraph(chx, ChemicalHyperEdge(Int[], [2, 3]), relaxed=true) # subhyperedge is not unique
+@test subhypergraph(chx, hyperedges(chx)) == chx
+@test vertices(subhypergraph(chx, [ChemicalHyperEdge(Int[], [1, 2]), ChemicalHyperEdge(Int[], [3, 4])], relaxed=true)) == vertices(chx)
 
 # hyperedge-induced subhypergraph with parallel hyperedges
-he = HyperEdge([1, 2, 3])
-parallel_hg = HyperGraph([he, he])
-@test subhypergraph(parallel_hg, he) == parallel_hg
+e = HyperEdge([1, 2, 3])
+parallel_x = HyperGraph([e, e])
+@test subhypergraph(parallel_x, e) == parallel_x
 che = ChemicalHyperEdge([1, 2], [3])
-parallel_chg = ChemicalHyperGraph([che, che])
-@test subhypergraph(parallel_chg, che) == parallel_chg
+parallel_chx = ChemicalHyperGraph([che, che])
+@test subhypergraph(parallel_chx, che) == parallel_chx
