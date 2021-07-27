@@ -58,7 +58,9 @@ Constructors set 1 as the default value for reactions rate and for stoichiometri
 
 ### Properties
 
-The vertex _degree_ is also referred to as _valency_. Additionally, the _degree_ of a graph is its maximum vertex degree [[Zhu2019]](#Zhu2019), which is not implemented here to avoid confusion.
+The usual definition of the _degree_ of a vertex v is _the number of edges incident on v_; this definition however breaks down in the case of a loop: following it strictly implies a loop has degree 1 (a loop is one edge incident on one vertex) when it is generally agreed it has degree 2 [[Bretto2013]](#Bretto2013), [[Kaminski2019]](#Kaminski2019), [[Zaslavsky1982]](#Zaslavsky1982). A more general definition is then probably _the number of incidences at v_, as given by Zaslavsky [[Zaslavsky1982]](#Zaslavsky1982). Following this more general definition gives us degree 2 for a loop (since a loop on v is twice incident on v [[Zaslavsky1982]](#Zaslavsky1982)) while working in the same way as the former definition in other cases. The vertex degree is also referred to as _valency_. Additionally, the _degree_ of a graph is its maximum vertex degree [[Zhu2019]](#Zhu2019), which is not implemented here to avoid confusion.
+
+The _cardinality_ of an edge is its _number of endpoints_; this can be interpreted in different ways, which becomes obvious when working with loops. If the vertices of an edge are treated as a multiset or as an _n_-tuple (e.g. when working with oriented edges), a loop should have cardinality 2. This comes from the fact that a loop has two (coinciding) endpoints [[Zaslavsky1982]](#Zaslavsky1982), [[Zaslavsky1991]](#Zaslavsky1991). If it is instead treated as a set, a loop has cardinality 1, as is often defined (e.g. in [[Dorfler1980]](#Dorfler1980), [[Berge1989]](#Berge1989), [[Bretto2013]](#Bretto2013)). Concisely, a loop has cardinality __2__ when counting its number of endpoints; __2__ when counting the number of elements of a multiset / _n_-tuple; __1__ when counting the number of elements of a set. This seems to be what is suggested on page 4 of  [[Spivak2009]](#Spivak2009): the map that sends the set of non-empty tuples on a set S (i.e. edges) to the set non-empty subsets of S (i.e. vertices) "may decrease cardinality." The approach taken here is to adopt the most general definition (i.e. considering the vertices of edges as a multiset / an _n_-tuple) which then leaves freedom to build more specialised functions on top.
 
 Hyperedge cardinality is also referred to as _order_ [[Zhu2019]](#Zhu2019), and as _size_. Neither of these are implemented; the former may be confused with the order of a hypergraph, and the latter may conflict with `Base.size`.
 
@@ -90,11 +92,17 @@ Note a potential future breaking change about the behaviour of `src` and `tgt`: 
 
 <a id="Bretto2013"></a>[Bretto2013] -- Bretto, A. (2013). _Hypergraph Theory: An Introduction_. Mathematical Engineering (Vol. 11). Heidelberg: Springer. [[doi]](https://doi.org/10.1007/978-3-319-00080-0)
 
+<a id="Burgio2020"></a>[Burgio2020] -- Burgio, G., Matamalas, J. T., Gómez, S., & Arenas, A. (2020). Evolution of Cooperation in the Presence of Higher-Order Interactions: from Networks to Hypergraphs. _Entropy_. [[doi]](https://doi.org/10.3390/e22070744)
+
 <a id="Chen2018"></a>[Chen2018] --
 Chen, G., Liu, V., Robinson, E., Rusnak, L. J., & Wang, K. (2018). A characterization of oriented hypergraphic Laplacian and adjacency matrix coefficients. _Linear Algebra and Its Applications_, 556, 323–341. [[doi]](https://doi.org/10.1016/j.laa.2018.07.012)
 
+<a id="Dorfler1980"></a>[Dorfler1980] -- Dörfler, W., & Waller, D. A. (1980). A category-theoretical approach to hypergraphs. _Archiv Der Mathematik_, 34(1), 185–192. [[doi]](https://doi.org/10.1007/BF01224952)
+
 <a id="Gallo1993"></a>[Gallo1993] --
 Gallo, G., Longo, G., Pallottino, S., & Nguyen, S. (1993). Directed hypergraphs and applications. _Discrete Applied Mathematics_, 42(2–3), 177–201. [[doi]](https://doi.org/10.1016/0166-218X(93)90045-P)
+
+<a id="Hellmuth2012"></a>[Hellmuth2012] -- Hellmuth, M., Ostermeier, L., & Stadler, P. F. (2012). A Survey on Hypergraph Products. _Mathematics in Computer Science_, 6(1), 1–32. [[doi]](https://doi.org/10.1007/s11786-012-0109-6)
 
 <a id="Jost2019"></a>[Jost2019] --
 Jost, J., & Mulas, R. (2019). Hypergraph Laplace operators for chemical reaction networks. _Advances in Mathematics_, 351, 870–896. [[doi]](https://doi.org/10.1016/j.aim.2019.05.025)
@@ -108,8 +116,14 @@ Rusnak, L. J. (2013). Oriented hypergraphs: Introduction and balance. _Electroni
 <a id="Shinar2010"></a>[Shinar2010] --
 Shinar, G., & Feinberg, M. (2010). Structural sources of robustness in biochemical reaction networks. _Science_, 327(5971), 1389–1391. [[doi]](https://doi.org/10.1126/science.1183372)
 
+<a id="Spivak2009"></a>[Spivak2009] -- Spivak, D. I. (2009). Higher-dimensional models of networks. _arXiv_, 1–18. Retrieved from [http://arxiv.org/abs/0909.4314](http://arxiv.org/abs/0909.4314)
+
 <a id="Wang2018"></a>[Wang2018] --
 Wang, L., Egorova, E. K., & Mokryakov, A. V. (2018). Development of Hypergraph Theory. _Journal of Computer and Systems Sciences International_, 57(1), 109–114. [[doi]](https://doi.org/10.1134/S1064230718010136)
+
+<a id="Zaslavsky1982"></a>[Zaslavsky1982] -- Zaslavsky, T. (1982). Signed graphs. _Discrete Applied Mathematics_, 4(1), 47–74. [[doi]](https://doi.org/10.1016/0166-218X(82)90033-6)
+
+<a id="Zaslavsky1991"></a>[Zaslavsky1991] -- Zaslavsky, T. (1991). Orientation of Signed Graphs. _European Journal of Combinatorics_, 12(4), 361–375. [[doi]](https://doi.org/10.1016/S0195-6698(13)80118-7)
 
 <a id="Zaslavsky2010"></a>[Zaslavsky2010] --
 Zaslavsky, T. (2010). Matrices in the Theory of Signed Simple Graphs. _arXiv_, 1–20. Retrieved from [http://arxiv.org/abs/1303.3083](http://arxiv.org/abs/1303.3083)

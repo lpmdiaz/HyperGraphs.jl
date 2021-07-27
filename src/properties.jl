@@ -66,6 +66,11 @@ degrees(x::T) where {T<:AbstractHyperGraph} = degrees(x, vertices(x))
 
 # length, cardinality
 Base.length(e::T) where {T<:AbstractHyperEdge} = length(vertices(e))
+"""
+    cardinality(e)
+
+Cardinality of edge `e`, defined as its number of endpoints.
+"""
 cardinality(e::T) where {T<:AbstractHyperEdge} = length(e)
 cardinalities(es::AbstractVector{T}) where {T<:AbstractHyperEdge} = cardinality.(es)
 cardinalities(x::T) where {T<:AbstractHyperGraph} = cardinalities(hyperedges(x))
@@ -84,7 +89,17 @@ nhe(x::T) where {T<:AbstractHyperGraph} = length(hyperedges(x))
 Base.size(x::T) where {T<:AbstractHyperGraph} = (nv(x), nhe(x))
 
 # rank, co-rank, and order of hypergraph
+"""
+    rank(x)
+
+Rank of hypergraph `x`, defined as the maximum cardinality over its hyperedges [Berge1989, Hellmuth2012, Bretto2013, Burgio2020].
+"""
 rank(x::T) where {T<:AbstractHyperGraph} = maximum(cardinalities(x))
+"""
+    co_rank(x)
+
+Co-rank of hypergraph `x`, defined as the minimum cardinality over its hyperedges [Hellmuth2012, Bretto2013, Burgio2020]. Sometimes referred to as anti-rank, e.g. in [Berge1989].
+"""
 co_rank(x::T) where {T<:AbstractHyperGraph} = minimum(cardinalities(x))
 order(x::T) where {T<:AbstractHyperGraph} = nv(x)
 
