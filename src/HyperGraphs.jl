@@ -34,7 +34,7 @@ species, stoich, src_stoich, tgt_stoich, inputs_stoich, outputs_stoich,
 inputs, outputs, rate,
 
 # matrices
-degree_matrix, incidence_matrix,
+degree_matrix, incidence_matrix, cardinality_matrix, weight_matrix,
 
 # operations
 add_vertex!, add_vertices!, del_vertex!, del_vertices!,

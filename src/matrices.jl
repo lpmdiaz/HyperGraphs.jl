@@ -11,3 +11,9 @@ degree_matrix(x::T) where {T<:AbstractHyperGraph} = Diagonal(degrees(x))
     end
     I
 end
+
+# cardinality matrix
+cardinality_matrix(x::T) where {T<:AbstractHyperGraph} = Diagonal(cardinalities(x))
+
+# weight matrix
+weight_matrix(x::T) where {T<:AbstractHyperGraph} = Diagonal(weights(x))
