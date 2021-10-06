@@ -121,7 +121,7 @@ loops(es::AbstractVector{T}) where {T<:AbstractHyperEdge} = filter(e -> isloop(e
 loops(x::AbstractHyperGraph) = loops(hyperedges(x))
 @traitfn positive_loops(es::AbstractVector{T}) where {T<:AbstractHyperEdge; IsOriented{T}} = filter(e -> is_positive_loop(e), es)
 @traitfn positive_loops(x::AbstractHyperGraph::IsOriented) = positive_loops(hyperedges(x))
-num_loops(x::AbstractHyperGraph) = sum([length(loop) > 0 for loop in loops(x)])
+num_loops(x::AbstractHyperGraph) = length(loops(x))
 
 # catalysts (chemical hypergraphs)
 catalysts(e::ChemicalHyperEdge) = filter(v -> is_positive_loop(e, v) && is_netstoich_null(e, v), unique(vertices(e)))

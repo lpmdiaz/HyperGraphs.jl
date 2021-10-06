@@ -174,6 +174,7 @@ extra_oriented_che = ChemicalHyperEdge([1], [2])
 @test positive_loops(ChemicalHyperGraph([positive_loop1, negative_loop1, negative_loop2]))[1] == positive_loop1
 @test num_loops(HyperGraph([unoriented_loop1, unoriented_loop2, extra_unoriented_e])) == 2
 @test num_loops(ChemicalHyperGraph([positive_loop1, negative_loop1, extra_oriented_che])) == 2
+@test num_loops(HyperGraph()) == num_loops(ChemicalHyperGraph()) == 0
 
 # catalysts (chemical hypergraphs)
 @test catalysts(catalyst_edge) == [:X]
