@@ -27,7 +27,7 @@ isoriented, isweighted, # trait functions
 objects, multiplicities, # incidence functions
 vertices, hyperedges, # hyperedges and hypergraphs functions
 src, tgt, src_multiplicities, tgt_multiplicities, # oriented hyperedges functions
-weight, # weighted hyperedges functions
+weight, weights, # weighted hyperedges functions
 
 # core: type functions
 species, stoich, src_stoich, tgt_stoich, inputs_stoich, outputs_stoich,

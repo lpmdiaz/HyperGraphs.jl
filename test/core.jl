@@ -73,6 +73,9 @@ che = ChemicalHyperEdge(reactant, product)
 @test src_multiplicities(che) == [1]
 @test tgt_multiplicities(che) == [2]
 @test weight(ChemicalHyperEdge()) == 1
+@test weight(ChemicalHyperEdge([], [], 6)) == 6
+x = ChemicalHyperGraph(ChemicalHyperEdge([], [], 6))
+@test weights(hyperedges(x)) == weights(x) == [6]
 srcs = [[1], [4]]; tgts = [[1, 2, 3], [2, 3, 4]]
 ches = [ChemicalHyperEdge(src, tgt) for (src, tgt) in zip(srcs, tgts)]
 @test src(ches) == srcs

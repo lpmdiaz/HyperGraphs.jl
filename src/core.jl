@@ -207,4 +207,6 @@ tgt(es::AbstractVector{T}) where {T<:AbstractHyperEdge} = [tgt(e) for e in es]
 @traitfn tgt_multiplicities(e::T::IsOriented) where {T<:AbstractHyperEdge} = multiplicities(e.tgt)
 
 # weight of weighted hyperedges
-@traitfn weight(e::T::IsWeighted) where {T} = e.weight
+@traitfn weight(e::T::IsWeighted) where {T<:AbstractHyperEdge } = e.weight
+weights(es::AbstractVector{T}) where {T<:AbstractHyperEdge} = [weight(es...)]
+weights(x::T) where {T<:AbstractHyperGraph} = weights(hyperedges(x))
