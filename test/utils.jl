@@ -14,10 +14,6 @@ che = ChemicalHyperEdge([1], [1, 2, 3])
 @test HyperGraphs.num_has_vertex(x, 2) == 2
 @test HyperGraphs.num_has_vertex(chx, 2) == 2
 
-# get_incident_hyperedges
-@test HyperGraphs.get_incident_hyperedges(x, 1) == [hyperedges(x)[1]]
-@test HyperGraphs.get_incident_hyperedges(chx, 1) == [hyperedges(chx)[1]]
-
 # vertices_to_indices
 @test all([HyperGraphs.vertices_to_indices(x)[i] == i for i in 1:nv(x)])
 @test all([HyperGraphs.vertices_to_indices(chx)[i] == i for i in 1:nv(chx)])

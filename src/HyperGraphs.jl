@@ -60,6 +60,7 @@ is_netstoich_null, iscatalyst,
 has_parallel_hyperedges, has_multi_hyperedges,
 
 # queries: content
+incident_hyperedges,
 empty_hyperedges, num_empty_hyperedges, has_empty_hyperedges,
 neighbors, inneighbors, outneighbors, all_neighbors,
 loops, positive_loops, num_loops,

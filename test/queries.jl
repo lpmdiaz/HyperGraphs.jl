@@ -127,6 +127,13 @@ catalyst_edge = ChemicalHyperEdge([:X], [:X])
 
 ## content queries ##
 
+# incident_hyperedges
+x = HyperGraph([HyperEdge([1, 2, 3]), HyperEdge([2, 3, 4])])
+srcs = [[1], [4]]; tgts = [[1, 2, 3], [2, 3, 4]]
+chx = ChemicalHyperGraph([ChemicalHyperEdge(src, tgt) for (src, tgt) in zip(srcs, tgts)])
+@test incident_hyperedges(x, 1) == [hyperedges(x)[1]]
+@test incident_hyperedges(chx, 1) == [hyperedges(chx)[1]]
+
 # empty hyperedges and hypergraphs
 @test empty_hyperedges(HyperGraph(HyperEdge())) == [HyperEdge()]
 @test empty_hyperedges(ChemicalHyperGraph(ChemicalHyperEdge())) == [ChemicalHyperEdge()]

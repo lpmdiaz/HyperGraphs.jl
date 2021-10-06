@@ -82,6 +82,14 @@ has_multi_hyperedges(x::T) where {T<:AbstractHyperGraph} = num_multi_hyperedges(
 
 ## content queries ##
 
+# incident hyperedges
+# returns all hyperedges incident on a given vertex
+function incident_hyperedges(x::T, v; check_presence=true) where {T<:AbstractHyperGraph}
+    check_presence && !has_vertex(x, v) && error("vertex $v not found in hypergraph vertices")
+    filter(e -> isincident(e, v), hyperedges(x))
+end
+incident_hyperedges(x::T, vs::AbstractVector) where {T<:AbstractHyperGraph} = union(vcat([incident_hyperedges(x, v) for v in vs])...)
+
 # empty hyperedges, hypergraphs
 empty_hyperedges(x::T) where {T<:AbstractHyperGraph} = filter(e -> isempty(e), hyperedges(x))
 num_empty_hyperedges(x::T) where {T<:AbstractHyperGraph} = length(empty_hyperedges(x))
@@ -89,19 +97,19 @@ has_empty_hyperedges(x::T) where {T<:AbstractHyperGraph} = num_empty_hyperedges(
 
 # neighbors
 function neighbors(x::T, v) where {T<:AbstractHyperGraph} # unoriented
-    union(vcat(symdiff.(vertices(get_incident_hyperedges(x, v)), v))...)
+    union(vcat(symdiff.(vertices(incident_hyperedges(x, v)), v))...)
 end
 @traitfn function inneighbors(x::T::IsOriented, v) where {T<:AbstractHyperGraph}
 
     # incident hyperedges where v is in the target set
-    v_in_tgt = filter(e -> in_tgt(v, e), get_incident_hyperedges(x, v))
+    v_in_tgt = filter(e -> in_tgt(v, e), incident_hyperedges(x, v))
 
     union(vcat(src(v_in_tgt)...))
 end
 @traitfn function outneighbors(x::T::IsOriented, v) where {T<:AbstractHyperGraph}
 
     # incident hyperedges where v is in the source set
-    v_in_src = filter(e -> in_src(v, e), get_incident_hyperedges(x, v))
+    v_in_src = filter(e -> in_src(v, e), incident_hyperedges(x, v))
 
     union(vcat(tgt(v_in_src)...))
 end

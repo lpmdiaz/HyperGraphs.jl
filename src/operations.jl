@@ -42,7 +42,7 @@ end
 end
 _del_vertex_from_vertices!(x::T, v) where {T<:AbstractHyperGraph} = filter!(_v -> _v != v, vertices(x))
 function _del_vertex!(x, v, weak)
-    incident_es = get_incident_hyperedges(x, v; check_presence=false) # presence checked in del_vertex!
+    incident_es = incident_hyperedges(x, v; check_presence=false) # presence checked in del_vertex!
     if !weak # completely remove any hyperedge incident on vertex
         filter!(e -> e ∉ incident_es, hyperedges(x))
     else # remove vertex from incidence -- retains the rest of the hyperedge
@@ -174,8 +174,8 @@ Subhypergraph induced by a set of vertices or hyperedges (also referred to as a 
 function subhypergraph end
 
 # vertex-induced subhypergraph
-subhypergraph(x::T, v) where {T<:AbstractHyperGraph} = T(get_incident_hyperedges(x, v))
-subhypergraph(x::T, vs::AbstractVector) where {T<:AbstractHyperGraph} = T(get_incident_hyperedges(x, vs))
+subhypergraph(x::T, v) where {T<:AbstractHyperGraph} = T(incident_hyperedges(x, v))
+subhypergraph(x::T, vs::AbstractVector) where {T<:AbstractHyperGraph} = T(incident_hyperedges(x, vs))
 
 # hyperedge-induced subhypergraph
 function subhypergraph(x::T, e::U; relaxed=false) where {T<:AbstractHyperGraph, U<:AbstractHyperEdge}
