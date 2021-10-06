@@ -44,7 +44,7 @@ Most of these will hopefully end up in the documentation.
 
 ### Core
 
-The source and the target of an oriented hyperedge are also referred to as head and tail, but the former is more explicit.
+The source and the target of an oriented hyperedge are also referred to as head and tail, but the former notation is more explicit.
 
 #### Chemical hypergraphs and chemical hyperedges
 
@@ -64,7 +64,7 @@ The _cardinality_ of an edge is its _number of endpoints_; this can be interpret
 
 Hyperedge cardinality is also referred to as _order_ [[Zhu2019]](#Zhu2019), and as _size_. Neither of these are implemented; the former may be confused with the order of a hypergraph, and the latter may conflict with `Base.size`.
 
-The _size_ of a hypergraph is defined in [[Gallo1993]](#Gallo1993); this is implemented as `hypergraph_size` to avoid confusion with `Base.size` again.
+The _size_ of a hypergraph is defined in [[Gallo1993]](#Gallo1993) and in [[Cambini1997]](#Cambini1997); this is implemented as `hypergraph_size` to avoid confusion with `Base.size` again.
 
 The _order_ of a hypergraph is its number of vertices [[Wang2018]](#Wang2018), [[Zaslavsky2010]](#Zaslavsky2010). (Also note that order is used to refer to the maximum cardinality of a hypergraph in [[Zhu2019]](#Zhu2019), but this use seems unusual.)
 
@@ -95,6 +95,8 @@ Note a potential future breaking change about the behaviour of `src` and `tgt`: 
 <a id="Bretto2013"></a>[Bretto2013] -- Bretto, A. (2013). _Hypergraph Theory: An Introduction_. Mathematical Engineering (Vol. 11). Heidelberg: Springer. [[doi]](https://doi.org/10.1007/978-3-319-00080-0)
 
 <a id="Burgio2020"></a>[Burgio2020] -- Burgio, G., Matamalas, J. T., Gómez, S., & Arenas, A. (2020). Evolution of Cooperation in the Presence of Higher-Order Interactions: from Networks to Hypergraphs. _Entropy_. [[doi]](https://doi.org/10.3390/e22070744)
+
+<a id="Cambini1997"></a>[Cambini1997] -- Cambini, R., Gallo, G., & Scutellà, M. G. (1997). Flows on hypergraphs. _Mathematical Programming, Series B_, 78(2), 195–217. [[doi]](https://doi.org/10.1007/BF02614371)
 
 <a id="Chen2018"></a>[Chen2018] --
 Chen, G., Liu, V., Robinson, E., Rusnak, L. J., & Wang, K. (2018). A characterization of oriented hypergraphic Laplacian and adjacency matrix coefficients. _Linear Algebra and Its Applications_, 556, 323–341. [[doi]](https://doi.org/10.1016/j.laa.2018.07.012)
