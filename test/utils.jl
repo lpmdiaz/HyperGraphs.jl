@@ -20,3 +20,9 @@ che = ChemicalHyperEdge([1], [1, 2, 3])
 
 # stoichiometries
 @test HyperGraphs.stoichiometries(ChemicalHyperEdge([:X], [:X]), :X) == ([1], [1])
+
+# get_hyperedge_type
+@test HyperGraphs.get_hyperedge_type(HyperGraph) == HyperEdge
+@test HyperGraphs.get_hyperedge_type(HyperGraph{String}) == HyperEdge
+@test HyperGraphs.get_hyperedge_type(ChemicalHyperGraph) == ChemicalHyperEdge
+@test HyperGraphs.get_hyperedge_type(ChemicalHyperGraph{Symbol}) == ChemicalHyperEdge

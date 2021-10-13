@@ -8,3 +8,15 @@ vertices_to_indices(x::T) where {T<:AbstractHyperGraph} = vertices_to_indices(ve
 
 # return the stoichiometries of vertex v in chemical hyperedge e
 stoichiometries(e::ChemicalHyperEdge, v) = has_vertex(e, v) && (src_stoich(e)[findall(_v -> _v == v, src(e))], tgt_stoich(e)[findall( _v -> _v == v, tgt(e))])
+
+# retrieve the hyperedge type of a concrete type of AbstractHyperGraph
+# might want to check that the returned value isa AbstractHyperEdge
+function get_hyperedge_type(t::Type{T}) where {T<:AbstractHyperGraph}
+    idx = findall(field -> field == :E, fieldnames(T))
+    !(isempty(idx)) ? e_field = fieldtypes(T)[idx[1]] : error("could not find edge field")
+    if isa(t, DataType)         # T is typed
+        e_field.parameters[1].name.wrapper
+    elseif isa(t, UnionAll)     # T isn’t typed
+        e_field.body.parameters[1].name.wrapper
+    end
+end
