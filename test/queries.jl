@@ -41,6 +41,16 @@ chx = ChemicalHyperGraph(vertices_chx, ches)
 @test !has_hyperedge(HyperGraph(), HyperEdge()) # an emty hypergraph does not have empty hyperedges
 @test !has_hyperedge(ChemicalHyperGraph(), ChemicalHyperEdge()) # an emty hypergraph does not have empty hyperedges
 
+# Base.in extension
+e1_in = HyperEdge([1, 2, 3])
+e2_in = HyperEdge([2, 3, 4])
+x_in = HyperGraph([e1_in, e2_in])
+@test e1_in in x && e2_in in x_in
+che1_in = ChemicalHyperEdge([1, 2], [3])
+che2_in = ChemicalHyperEdge([2, 3], [4])
+chx_in = ChemicalHyperGraph([che1_in, che2_in])
+@test che1_in in chx_in && che2_in in chx_in
+
 # incidences
 e1 = HyperEdge([1, 2, 3])
 e2 = ChemicalHyperEdge([1], [2, 3])
