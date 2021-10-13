@@ -47,6 +47,22 @@ e2 = ChemicalHyperEdge([1], [2, 3])
 @test isincident(e1, 1) && isincident(1, e1)
 @test isincident(e2, 1) && isincident(1, e2)
 
+# issimple
+@test issimple(HyperGraph())
+@test issimple(HyperGraph(HyperEdge([1, 2, 3])))
+@test !issimple(HyperGraph(HyperEdge([1, 2, 3, 1]))) # loop
+@test !issimple(HyperGraph([HyperEdge([1, 2, 3]), HyperEdge([1, 2, 3])])) # multiple hyperedges
+@test issimple(ChemicalHyperGraph())
+@test issimple(ChemicalHyperGraph(ChemicalHyperEdge([1, 2, 3], [4])))
+@test !issimple(ChemicalHyperGraph(ChemicalHyperEdge([1, 2, 3], [4, 1]))) # loop
+@test !issimple(ChemicalHyperGraph([ChemicalHyperEdge([1, 2, 3], [4]), ChemicalHyperEdge([1, 2, 3], [4])])) # multiple hyperedges
+
+# isgraph
+@test isgraph(HyperGraph([HyperEdge([1, 2]), HyperEdge([1, 2])]))
+@test !isgraph(HyperGraph([HyperEdge([1, 2]), HyperEdge([1, 2, 3])]))
+@test isgraph(ChemicalHyperGraph([ChemicalHyperEdge([1], [2]), ChemicalHyperEdge([1], [2])]))
+@test !isgraph(ChemicalHyperGraph([ChemicalHyperEdge([1], [2]), ChemicalHyperEdge([1, 2], [3])]))
+
 # empty hyperedges and hypergraphs
 @test isempty(HyperEdge())
 @test isempty(HyperGraph())

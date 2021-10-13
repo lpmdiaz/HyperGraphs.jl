@@ -29,6 +29,12 @@ A hyergraph is empty if it has no hyperedges.
 """
 Base.isempty(x::T) where {T<:AbstractHyperGraph} = nhe(x) == 0
 
+# a simple hypergraph has no loops or multiple hyperedges
+issimple(x::T) where {T<:AbstractHyperGraph} = !has_loops(x) && !has_multi_hyperedges(x)
+
+# check if a hypergraph may be represented as a graph, that is if the cardinality of all hyperedges is 2
+isgraph(x::T) where {T<:AbstractHyperGraph} = cardinalities(x) == fill(2, nhe(x))
+
 # check that a hyperedge is a subhyperedge of another hyperedge
 @traitfn issubhyperedge(e_sub::T, e_super::T) where {T<:AbstractHyperEdge; !IsOriented{T}} = all([isincident(e_super, v) for v in vertices(e_sub)]) # unoriented
 @traitfn issubhyperedge(e_sub::T, e_super::T) where {T<:AbstractHyperEdge; IsOriented{T}} = all(in_src(src(e_sub), e_super)) && all(in_tgt(tgt(e_sub), e_super)) # oriented

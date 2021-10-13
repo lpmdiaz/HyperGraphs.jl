@@ -53,6 +53,7 @@ nv, nhe, delta, Δ, rank, co_rank, order, hypergraph_size, volume, # hypergraphs
 has_vertex, has_vertices, has_hyperedge, has_hyperedges,
 in_src, in_tgt,
 isincident,
+issimple, isgraph,
 issubhyperedge, isuniquesubhyperedge,
 isloop, is_positive_loop, has_loops,
 iskuniform, iskregular,
