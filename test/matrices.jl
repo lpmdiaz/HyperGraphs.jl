@@ -8,6 +8,9 @@ x3 = ChemicalHyperGraph([ChemicalHyperEdge(), ChemicalHyperEdge()])
 # degree matrix
 @test degree_matrix(x1) == degree_matrix(x2)
 
+# incidence matrix
+@test incidence_matrix(x1) == incidence_matrix(x2)
+
 # cardinality matrix
 @test cardinality_matrix(x1) == cardinality_matrix(x2) == Diagonal([3, 3])
 
