@@ -3,6 +3,7 @@ using Test
 const tests = [
     "core",
     "conversions",
+    "graph-theory",
     "matrices",
     "operations",
     "properties",
