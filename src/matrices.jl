@@ -12,6 +12,16 @@ degree_matrix(x::T) where {T<:AbstractHyperGraph} = Diagonal(degrees(x))
     I
 end
 
+# incidence matrix (unoriented case)
+@traitfn function incidence_matrix(x::T::(!IsOriented)) where {T<:AbstractHyperGraph}
+    idx = HyperGraphs.vertices_to_indices(x)
+    I = zeros(Int, nv(x), nhe(x))
+    @inbounds for (i, e) in enumerate(hyperedges(x))
+        [I[idx[v], i] += s for (v, s) in zip(vertices(e), fill(1, cardinality(e)))]
+    end
+    I
+end
+
 # cardinality matrix
 cardinality_matrix(x::T) where {T<:AbstractHyperGraph} = Diagonal(cardinalities(x))
 
