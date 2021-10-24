@@ -80,6 +80,8 @@ _Weak_ deletion only deletes incidences, whereas _strong_ deletion deletes any o
 
 Note: currently, the internal function `_del_vertex!(e)` must have two methods: one for unoriented and one for oriented hyperedges; this is because the former method only needs to remove a vertex from `vertices(e)` when the latter needs to remove it from both the source and target sets (and both objects and multiplicities), which does not naturally work with `vertices` of an oriented hyperedge. This is somewhat messy; ideally, as mentioned above, methods would be built automatically from the hyperedge flavour (here oriented vs. unoriented), via traits.
 
+Edge _switching_ is implemented at a high level by swapping the source and target sets of an oriented hyperedge. Switching is more fundamentally defined as the negation of incidences, e.g. in [[Reff2012]](#Reff2012), [[Rusnak2013]](#Rusnak2013).
+
 ## Future developments
 
 This is mainly a personal repository to play around with hypergraphs, but I do plan to add more functionalities over time.
@@ -113,6 +115,9 @@ Jost, J., & Mulas, R. (2019). Hypergraph Laplace operators for chemical reaction
 
 <a id="Kaminski2019"></a>[Kaminski2019] --
 Kamiński, B., Poulin, V., Prałat, P., Szufel, P., & Théberge, F. (2019). Clustering via hypergraph modularity. _PLoS ONE_, 14(11), 1–15. [[doi]](https://doi.org/10.1371/journal.pone.0224307)
+
+<a id="Reff2012"></a>[Reff2012] -- Reff, N., & Rusnak, L. J. (2012). An oriented hypergraphic approach to algebraic graph theory.
+_Linear Algebra and Its Applications_, 437(9), 2262–2270. [[doi]](https://doi.org/10.1016/j.laa.2012.06.011)
 
 <a id="Rusnak2013"></a>[Rusnak2013] --
 Rusnak, L. J. (2013). Oriented hypergraphs: Introduction and balance. _Electronic Journal of Combinatorics_, 20(3), 1–29. [[doi]](https://doi.org/10.37236/2763)

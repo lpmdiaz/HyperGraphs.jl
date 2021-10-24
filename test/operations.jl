@@ -150,3 +150,9 @@ parallel_x = HyperGraph([e, e])
 che = ChemicalHyperEdge([1, 2], [3])
 parallel_chx = ChemicalHyperGraph([che, che])
 @test subhypergraph(parallel_chx, che) == parallel_chx
+
+# edge switching
+che = ChemicalHyperEdge([1, 2], [3], 5)
+switched_che = switch(che)
+@test src(che) == tgt(switched_che) && tgt(che) == src(switched_che)
+@test weight(che) == weight(switched_che)

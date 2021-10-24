@@ -192,3 +192,8 @@ function subhypergraph(x::T, es::AbstractVector{U}; relaxed=false) where {T<:Abs
         all([isuniquesubhyperedge(e, x) for e in es]) ? T(es) : error("at least one hyperedge is not unique subhyperedge")
     end
 end
+
+# switch an oriented hyperedge, i.e. swap its source and target sets
+@traitfn function switch(e::T::IsOriented) where {T<:AbstractHyperEdge}
+    T([e.tgt, e.src, [getproperty(e, sym) for sym in fieldnames(T)[3:end]]...]...)
+end

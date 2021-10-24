@@ -43,6 +43,7 @@ replace_vertex!, replace_hyperedge!, replace_hyperedges!,
 update_weight!, set_all_weights!,
 merge,
 subhypergraph,
+switch,
 
 # properties
 degree, indegree, outdegree, degrees, indegrees, outdegrees, # vertices properties
