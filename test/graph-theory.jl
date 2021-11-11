@@ -4,9 +4,15 @@ using LinearAlgebra: Diagonal
 ## matrices ##
 
 # incidence matrix of undirected graph from https://en.wikipedia.org/wiki/Incidence_matrix
-hes = [HyperEdge([1, 2]), HyperEdge([1, 3]), HyperEdge([1, 4]), HyperEdge([3, 4])]
-ref_incidence = [1 1 1 0; 1 0 0 0; 0 1 0 1; 0 0 1 1]
-@test incidence_matrix(HyperGraph(hes)) == ref_incidence
+es = [HyperEdge([1, 2]), HyperEdge([1, 3]), HyperEdge([1, 4]), HyperEdge([3, 4])]
+@test incidence_matrix(HyperGraph(es)) == [1 1 1 0; 1 0 0 0; 0 1 0 1; 0 0 1 1]
+
+# incidence matrix and properties of undirected hypergraph from Fig. 1 of Konstantinova, E. V., & Skorobogatov, V. A. (2001). Application of hypergraph theory in chemistry. Discrete Mathematics, 235(1–3), 365–383.
+x = HyperGraph([HyperEdge([1]), HyperEdge([2, 3]), HyperEdge([1, 2, 4])])
+@test incidence_matrix(x) == [1 0 1; 0 1 1; 0 1 0; 0 0 1]
+@test cardinalities(x) == [1, 2, 3]
+@test degree(x, 2) == 2
+@test degree(x, 4) == 1
 
 # example from: Chen, G., Liu, V., Robinson, E., Rusnak, L. J., & Wang, K. (2018). A characterization of oriented hypergraphic Laplacian and adjacency matrix coefficients. Linear Algebra and Its Applications, 556, 323–341.
 srcs = [[2], [1, 2], Int[]]; tgts = [[1], [2, 3], [3, 3]]
