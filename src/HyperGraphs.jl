@@ -45,10 +45,15 @@ merge,
 subhypergraph,
 switch,
 
-# properties
-degree, indegree, outdegree, degrees, indegrees, outdegrees, # vertices properties
-length, cardinality, cardinalities, nsrcs, ntgts, # hyperedges properties
-nv, nhe, delta, Δ, rank, co_rank, order, hypergraph_size, volume, # hypergraphs properties
+# properties: vertices
+degree, indegree, outdegree, degrees, indegrees, outdegrees,
+
+# properties: hyperedges
+length, cardinality, cardinalities, nsrcs, ntgts,
+
+# properties: hypergraphs
+nv, nhe, delta, Δ, rank, co_rank, order, hypergraph_size, volume,
+degree_counts, cardinality_counts, degree_distribution, degree_sequence,
 
 # queries: Boolean
 has_vertex, has_vertices, has_hyperedge, has_hyperedges,

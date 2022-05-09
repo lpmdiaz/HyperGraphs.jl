@@ -115,3 +115,21 @@ order(x::T) where {T<:AbstractHyperGraph} = nv(x)
 # size and volume of hypergraph
 hypergraph_size(x::T) where {T<:AbstractHyperGraph} = sum(cardinalities(hyperedges(x)))
 volume(x::T) where {T<:AbstractHyperGraph} = sum(degrees(x))
+
+# degree & cardinality counts
+function degree_counts(x::T) where {T<:AbstractHyperGraph}
+    [sum(degrees(x) .== d) for d in HyperGraphs.degree_bins(x)]
+end
+function cardinality_counts(x::T) where {T<:AbstractHyperGraph}
+    [sum(cardinalities(x) .== c) for c in HyperGraphs.cardinality_bins(x)]
+end
+
+# degree distribution
+degree_distribution(x::T) where {T<:AbstractHyperGraph} = degree_counts(x) ./ nv(x)
+
+# degree sequence
+degree_sequence(x::T) where {T<:AbstractHyperGraph} = sort(degrees(x), rev=true)
+function degree_sequence(degree_counts::AbstractVector{Int}; degrees=0:length(degree_counts))
+    seq = vcat([repeat([degree], degree_count) for (degree, degree_count) in zip(degrees, degree_counts)]...)
+    sort(seq, rev=true)
+end

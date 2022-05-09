@@ -1,3 +1,5 @@
+using Distributions: isprobvec
+
 # hyperedges properties
 vertices_e = [1, 2, 3]
 e = HyperEdge(vertices_e)
@@ -30,6 +32,13 @@ chx = ChemicalHyperGraph(vertices_chx, ches)
 @test delta(x) == Δ(x) == 2
 @test delta(chx) == Δ(chx) == 2
 @test rank(chx) == co_rank(chx) == 4
+@test sum(degree_counts(x)) == nv(x)
+@test sum(cardinality_counts(x)) == nhe(x)
+@test isprobvec(degree_distribution(x))
+target_counts = [0, 2, 1]
+@test degree_sequence(target_counts) == [2, 1, 1]
+@test length(degree_sequence(target_counts)) == sum(target_counts)
+@test degree_sequence([2, 1], degrees = [1, 2]) == [2, 1, 1] # truncate 0
 
 # vertices properties
 @test degree(x, 1) == 1
