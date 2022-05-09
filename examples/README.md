@@ -1,6 +1,6 @@
 # Examples
 
-This directory will contain examples showcasing how to use HyperGraphs.jl.
+This directory contains examples showcasing how to use HyperGraphs.jl.
 
 ## Theoretical examples
 
