@@ -26,3 +26,7 @@ che = ChemicalHyperEdge([1], [1, 2, 3])
 @test HyperGraphs.get_hyperedge_type(HyperGraph{String}) == HyperEdge
 @test HyperGraphs.get_hyperedge_type(ChemicalHyperGraph) == ChemicalHyperEdge
 @test HyperGraphs.get_hyperedge_type(ChemicalHyperGraph{Symbol}) == ChemicalHyperEdge
+
+# degree & cardinality bins
+@test HyperGraphs.degree_bins(x) isa StepRange
+@test HyperGraphs.cardinality_bins(x) isa StepRange
