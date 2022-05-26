@@ -103,4 +103,4 @@ hyperedges(chx)
 e = HyperEdge(collect(1:10))
 @test !isweighted(e) && e.weight == 1
 @test_throws ErrorException e.weight = 2
-@test getproperty(e, :weight) === e.weight
+@test getproperty(e, :weight) === e.weight === weight(e)
