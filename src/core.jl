@@ -181,6 +181,32 @@ isoriented(::Type{T}) where {T<:OrientedStructs} = true
 @traitimpl IsWeighted{WeightedStructs}
 isweighted(::Type{T}) where {T<:WeightedStructs} = true
 
+## defaults ##
+
+# dictionary mapping default field values onto abstract types
+DefaultVals = Dict(
+    AbstractHyperEdge => Dict(:weight => 1),
+    AbstractHyperGraph => Dict{Symbol, Any}()
+)
+
+# get the default field value of a given object
+function getdefault(x::T, sym::Symbol) where {T}
+    abstract_type = supertype(T)
+    if !haskey(DefaultVals, abstract_type)
+        error("type $abstract_type has no default")
+    end
+    default_vals_dict = DefaultVals[abstract_type]
+    if !haskey(default_vals_dict, sym)
+        error("default $sym value not defined for $abstract_type")
+    end
+    default_vals_dict[sym]
+end
+
+# extend Base.getproperty to the abstract types exported by HyperGraphs
+function Base.getproperty(x::T, sym::Symbol) where {T<:AbstractStructs}
+    isdefined(x, sym) ? getfield(x, sym) : getdefault(x, sym)
+end
+
 ## core functions ##
 
 # objects and multiplicities of incidence structures

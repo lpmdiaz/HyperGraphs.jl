@@ -46,6 +46,12 @@ Most of these will hopefully end up in the documentation.
 
 The source and the target of an oriented hyperedge are also referred to as head and tail, but the former notation is more explicit.
 
+#### Default values
+
+Default field values are implemented by overloading `Base.getproperty`. This means `object.some_field` can return a value despite `object` having no corresponding `:some_field` field.
+
+So far, objects of type `AbstractHyperEdge` have a default `:weight` value of `1`.
+
 #### Chemical hypergraphs and chemical hyperedges
 
 Chemical hypergraphs represent reaction networks but are rooted in graph theory. The main reference is probably [[Jost2019]](#Jost2019).

@@ -97,3 +97,10 @@ chx = ChemicalHyperGraph(vertices_chx, ches)
 hyperedges(chx)
 @test ChemicalHyperGraph(ches) == chx
 @test eltype(chx) == eltype(hyperedges(chx)[1])
+
+## defaults ##
+
+e = HyperEdge(collect(1:10))
+@test !isweighted(e) && e.weight == 1
+@test_throws ErrorException e.weight = 2
+@test getproperty(e, :weight) === e.weight
