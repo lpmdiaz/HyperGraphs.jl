@@ -22,7 +22,7 @@ function get_hyperedge_type(t::Type{T}) where {T<:AbstractHyperGraph}
 end
 
 # get degree bins (0 to maximum degree) for a given hypergraph
-degree_bins(x::T) where {T<:AbstractHyperGraph} = 0:1:Δ(x)
+@traitfn degree_bins(x::T::(!IsWeighted)) where {T<:AbstractHyperGraph} = 0:1:Δ(x)
 
 # get cardinality bins (0 to maximum cardinality) for a given hypergraph
 cardinality_bins(x::T) where {T<:AbstractHyperGraph} = 0:1:rank(x)
