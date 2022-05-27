@@ -64,11 +64,25 @@ Constructors set 1 as the default value for reactions rate and for stoichiometri
 
 ### Properties
 
-The usual definition of the _degree_ of a vertex v is _the number of edges incident on v_; this definition however breaks down in the case of a loop: following it strictly implies a loop has degree 1 (a loop is one edge incident on one vertex) when it is generally agreed it has degree 2 [[Bretto2013]](#Bretto2013), [[Bollobas1998]](#Bollobas1998), [[Kaminski2019]](#Kaminski2019), [[Zaslavsky1982]](#Zaslavsky1982). A more general definition is then probably _the number of incidences at v_, as given by Zaslavsky [[Zaslavsky1982]](#Zaslavsky1982). Following this more general definition gives us degree 2 for a loop (since a loop on v is twice incident on v [[Zaslavsky1982]](#Zaslavsky1982)) while working in the same way as the former definition in other cases. The vertex degree is also referred to as _valency_. Additionally, the _degree_ of a graph is its maximum vertex degree [[Zhu2019]](#Zhu2019), which is not implemented here to avoid confusion.
+#### Vertex degree
+
+The usual definition of the _degree_ of a vertex v is _the number of edges incident on v_; this definition however breaks down in the case of a loop: following it strictly implies a loop has degree 1 (a loop is one edge incident on one vertex) when it is generally agreed it has degree 2 [[Bretto2013]](#Bretto2013), [[Bollobas1998]](#Bollobas1998), [[Kaminski2019]](#Kaminski2019), [[Zaslavsky1982]](#Zaslavsky1982).
+
+A more general definition is then probably _the number of incidences at v_, as given by Zaslavsky [[Zaslavsky1982]](#Zaslavsky1982). Following this more general definition gives us degree 2 for a loop (since a loop on v is twice incident on v [[Zaslavsky1982]](#Zaslavsky1982)) while working in the same way as the former definition in other cases.
+
+Here we implement an even more general definition of degree: the degree of vertex v is defined as _the sum of the weights of edges incident on v_, where the weight of edge e appears according to the multiplicity of v in e. In other words, the degree of v is given by the sum over edges of edge weight times the number of incidences of v in each edge. Other definitions discussed above are special cases of this more general definition.
+
+This however means that `degree` may now return values that are not of type `Number`, depending on what type edge weights are. This may cause unexpected behaviours since some concepts rely on e.g. `maximum` or `sum` being defined on degree values. Those effectively assume that degrees are defined on the positive integers including zero.
+
+The vertex degree is also referred to as _valency_. Additionally, the _degree_ of a graph is its maximum vertex degree [[Zhu2019]](#Zhu2019), which is not implemented here to avoid confusion.
+
+#### Edge cardinality
 
 The _cardinality_ of an edge is its _number of endpoints_; this can be interpreted in different ways, which becomes obvious when working with loops. If the vertices of an edge are treated as a multiset or as an _n_-tuple (e.g. when working with oriented edges), a loop should have cardinality 2. This comes from the fact that a loop has two (coinciding) endpoints [[Zaslavsky1982]](#Zaslavsky1982), [[Zaslavsky1991]](#Zaslavsky1991). If it is instead treated as a set, a loop has cardinality 1, as is often defined (e.g. in [[Dorfler1980]](#Dorfler1980), [[Berge1989]](#Berge1989), [[Bretto2013]](#Bretto2013)). Concisely, a loop has cardinality __2__ when counting its number of endpoints; __2__ when counting the number of elements of a multiset / _n_-tuple; __1__ when counting the number of elements of a set. This seems to be what is suggested on page 4 of  [[Spivak2009]](#Spivak2009): the map that sends the set of non-empty tuples on a set S (i.e. edges) to the set non-empty subsets of S (i.e. vertices) "may decrease cardinality." The approach taken here is to adopt the most general definition (i.e. considering the vertices of edges as a multiset / an _n_-tuple) which then leaves freedom to build more specialised functions on top.
 
 Hyperedge cardinality is also referred to as _order_ [[Zhu2019]](#Zhu2019), and as _size_. Neither of these are implemented; the former may be confused with the order of a hypergraph, and the latter may conflict with `Base.size`.
+
+#### Other properties
 
 The _size_ of a hypergraph is defined in [[Gallo1993]](#Gallo1993) and in [[Cambini1997]](#Cambini1997); this is implemented as `hypergraph_size` to avoid confusion with `Base.size` again.
 
