@@ -42,25 +42,44 @@ function outdegrees end
 
 # internal function to deal with all cases
 function _degree(x::T, v, f::Function) where {T<:AbstractHyperGraph}
-    has_vertex(x, v) ? sum([num_has_vertex(e, v, f=f) for e in hyperedges(x)]) : error("vertex $v not found in hypergraph vertices")
+    !has_vertex(x, v) && error("vertex $v not found in hypergraph vertices")
+    sum([num_has_vertex(e, v, f=f) * weight(e) for e in hyperedges(x)])
 end
 
 # the degree of a vertex in a hypergraph
-degree(x::T, v) where {T<:AbstractHyperGraph} = _degree(x, v, vertices)
+function degree(x::T, v) where {T<:AbstractHyperGraph}
+    _degree(x, v, vertices)
+end
 
 # the in- and outdegree of a vertex in an oriented hypergraph
-@traitfn indegree(x::T::IsOriented, v) where {T<:AbstractHyperGraph} = _degree(x, v, tgt)
-@traitfn outdegree(x::T::IsOriented, v) where {T<:AbstractHyperGraph} = _degree(x, v, src)
+@traitfn function indegree(x::T::IsOriented, v) where {T<:AbstractHyperGraph}
+    _degree(x, v, tgt)
+end
+@traitfn function outdegree(x::T::IsOriented, v) where {T<:AbstractHyperGraph}
+    _degree(x, v, src)
+end
 
 # degree functions for vectors of vertices
-degrees(x::T, vs::AbstractVector) where {T<:AbstractHyperGraph} = [degree(x, v) for v in vs]
-@traitfn indegrees(x::T::IsOriented, vs::AbstractVector) where {T<:AbstractHyperGraph} = [indegree(x, v) for v in vs]
-@traitfn outdegrees(x::T::IsOriented, vs::AbstractVector) where {T<:AbstractHyperGraph} = [outdegree(x, v) for v in vs]
+function degrees(x::T, vs::AbstractVector) where {T<:AbstractHyperGraph}
+    [degree(x, v) for v in vs]
+end
+@traitfn function indegrees(x::T::IsOriented, vs::AbstractVector) where {T<:AbstractHyperGraph}
+    [indegree(x, v) for v in vs]
+end
+@traitfn function outdegrees(x::T::IsOriented, vs::AbstractVector) where {T<:AbstractHyperGraph}
+    [outdegree(x, v) for v in vs]
+end
 
 # degree functions for hypergraphs
-degrees(x::T) where {T<:AbstractHyperGraph} = degrees(x, vertices(x))
-@traitfn indegrees(x::T::IsOriented) where {T<:AbstractHyperGraph} = indegrees(x, vertices(x))
-@traitfn outdegrees(x::T::IsOriented) where {T<:AbstractHyperGraph} = outdegrees(x, vertices(x))
+function degrees(x::T) where {T<:AbstractHyperGraph}
+    degrees(x, vertices(x))
+end
+@traitfn function indegrees(x::T::IsOriented) where {T<:AbstractHyperGraph}
+    indegrees(x, vertices(x))
+end
+@traitfn function outdegrees(x::T::IsOriented) where {T<:AbstractHyperGraph}
+    outdegrees(x, vertices(x))
+end
 
 ## hyperedges properties ##
 
@@ -88,7 +107,7 @@ nhe(x::T) where {T<:AbstractHyperGraph} = length(hyperedges(x))
 # extending Base.size
 Base.size(x::T) where {T<:AbstractHyperGraph} = (nv(x), nhe(x))
 
-# maximum degree of a hypergraphs
+# maximum degree of a hypergraph
 """
     delta(x)
 
