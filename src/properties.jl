@@ -83,16 +83,16 @@ end
 
 ## hyperedges properties ##
 
-# length, cardinality
-Base.length(e::T) where {T<:AbstractHyperEdge} = length(vertices(e))
+# cardinality, length
 """
     cardinality(e)
 
 Cardinality of edge `e`, defined as its number of endpoints.
 """
-cardinality(e::T) where {T<:AbstractHyperEdge} = length(e)
+cardinality(e::T) where {T<:AbstractHyperEdge} = sum([multiplicity(v, e) for v in Set(vertices(e))])
 cardinalities(es::AbstractVector{T}) where {T<:AbstractHyperEdge} = cardinality.(es)
 cardinalities(x::T) where {T<:AbstractHyperGraph} = cardinalities(hyperedges(x))
+Base.length(e::T) where {T<:AbstractHyperEdge} = cardinality(e)
 
 # number of source and of target objects
 @traitfn nsrcs(e::T::IsOriented) where {T<:AbstractHyperEdge} = length(objects(e.src))

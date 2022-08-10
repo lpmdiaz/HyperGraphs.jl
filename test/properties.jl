@@ -16,6 +16,11 @@ ches = [ChemicalHyperEdge(src, tgt, 2) for (src, tgt) in zip(srcs, tgts)]
 @test nsrcs(ches[1]) == nsrcs(ches[2]) == 1
 @test ntgts(ches[1]) == ntgts(ches[2]) == 3
 @test nsrcs(ches[1]) + ntgts(ches[1]) == length(ches[1])
+e = HyperEdge([1, 1, 2, 1])
+che = ChemicalHyperEdge(SpeciesSet([1, 2], [2, 1]), SpeciesSet(1))
+@test multiplicity(1, e) == multiplicity(1, che) == 3
+@test cardinality(e) == cardinality(che) == 4
+@test cardinality(ChemicalHyperEdge(SpeciesSet([1], [2]), SpeciesSet([2]))) == 3
 
 # hypergraphs properties
 x = HyperGraph(vertices_e, es)
