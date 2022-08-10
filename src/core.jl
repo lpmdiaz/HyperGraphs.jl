@@ -34,6 +34,7 @@ HyperEdge{T}() where {T} = HyperEdge{T}([])
 HyperEdge() = HyperEdge{Any}([])
 Base.:(==)(e1::HyperEdge, e2::HyperEdge) = isequal(vertices(e1), vertices(e2))
 Base.eltype(::HyperEdge{T}) where {T} = T
+multiplicity(v, e::HyperEdge) = num_has_vertex(e, v)
 
 """
     HyperGraph{T}
@@ -128,6 +129,11 @@ inputs_stoich(e::ChemicalHyperEdge) = src_stoich(e)
 outputs_stoich(e::ChemicalHyperEdge) = tgt_stoich(e)
 Base.:(==)(e1::ChemicalHyperEdge, e2::ChemicalHyperEdge) = isequal(inputs(e1), inputs(e2)) && isequal(outputs(e1), outputs(e2)) && isequal(rate(e1), rate(e2))
 Base.eltype(::ChemicalHyperEdge{T}) where {T} = T
+function multiplicity(v, e::ChemicalHyperEdge)
+    src_idx = findall(_v -> _v == v, src(e))
+    tgt_idx = findall(_v -> _v == v, tgt(e))
+    sum(vcat(src_multiplicities(e)[src_idx], tgt_multiplicities(e)[tgt_idx]))
+end
 
 """
     ChemicalHyperGraph{T}

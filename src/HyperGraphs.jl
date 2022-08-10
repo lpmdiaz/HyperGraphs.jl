@@ -30,6 +30,7 @@ src, tgt, src_multiplicities, tgt_multiplicities, # oriented hyperedges function
 weight, weights, # weighted hyperedges functions
 
 # core: type functions
+multiplicity,
 species, stoich, src_stoich, tgt_stoich, inputs_stoich, outputs_stoich,
 inputs, outputs, rate,
 
