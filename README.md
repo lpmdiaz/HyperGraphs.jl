@@ -1,4 +1,4 @@
-<h1 align="center"><a>HyperGraphs.jl</a></h1>
+<h1 align="center"><a><img src="logo.svg" alt="HyperGraphs.jl" width="200"/> <br> <b>HyperGraphs.jl</b> </a></h1>
 
 The main aim of this package is to implement concepts of graph theory on hypergraphs. At the most basic level, it allows to represent high-order relationships between objects, with complete freedom to choose the type of these objects. A secondary aim follows from the realisation that most flavours of (hyper)graphs are a specific case of oriented, weighted hypergraphs; from this, it should be possible to define all methods at the hypergraph level and to programmatically specialise them for other (hyper)graph types.
 
