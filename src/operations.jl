@@ -165,6 +165,7 @@ set_all_weights!(x::T, w) where {T<:AbstractHyperGraph} = [update_weight!(e, w) 
 
 # hypergraphs merging
 Base.merge(x1::T, x2::T) where {T<:AbstractHyperGraph} = T(vcat(hyperedges(x1), hyperedges(x2)))
+Base.merge(x::T, y::T, z::T...) where {T<:AbstractHyperGraph} = merge(merge(x, y), z...)
 Base.merge(xs::AbstractVector{T}) where {T<:AbstractHyperGraph} = reduce(merge, xs)
 
 """

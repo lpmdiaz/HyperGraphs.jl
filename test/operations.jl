@@ -115,9 +115,11 @@ che = hyperedges(chx)[1]
 e1 = HyperEdge([1, 1])
 e2 = HyperEdge([1, 2])
 @test merge(HyperGraph(e1), HyperGraph(e2)) == HyperGraph([e1, e2])
+@test merge(HyperGraph(e1), HyperGraph(e2), HyperGraph(e2)) == HyperGraph([e1, e2, e2])
 che1 = ChemicalHyperEdge([1], [1])
 che2 = ChemicalHyperEdge([1], [2])
 @test merge(ChemicalHyperGraph(che1), ChemicalHyperGraph(che2)) == ChemicalHyperGraph([che1, che2])
+@test merge(ChemicalHyperGraph(che1), ChemicalHyperGraph(che2), ChemicalHyperGraph(che2)) == ChemicalHyperGraph([che1, che2, che2])
 
 # vertex-induced subhypergraph
 x = HyperGraph([HyperEdge([1, 2, 3]), HyperEdge([2, 3, 4])])
