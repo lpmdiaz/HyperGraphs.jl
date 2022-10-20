@@ -28,7 +28,7 @@ Functions are defined on hypergraphs `x` and edges `e` for consistency. It may b
 
 ## Some notes on the code
 
-A word of caution: this is a work in progress, and so functions have not been perfectly proofread for corectness (especially those in operations, neighbor functions, parallel and multi-hyperedges, loops...). E.g. currently, it is possible to add hyperedges to a hypergraph that does not have all the vertices in said hyperedges in its vertx set; this will be prevented from happening eventually.
+A word of caution: this is a work in progress, and so functions have not been perfectly proofread for correctness (especially those in operations, neighbor functions, parallel and multi-hyperedges, loops...). E.g. currently, it is possible to add hyperedges to a hypergraph that does not have all the vertices in said hyperedges in its vertex set; this will be prevented from happening eventually.
 
 Each graph flavour should be implemented with performance and ease of interfacing (i.e. of accessing information) in mind: there is no need to carry redundant information just because the mathematical syntax does. Hopefully this is true in the current code, but some improvements are definitely possible.
 
