@@ -2,7 +2,7 @@ using Test
 
 const tests = [
     "core",
-    "conversions",
+    "projections",
     "graph-theory",
     "matrices",
     "operations",

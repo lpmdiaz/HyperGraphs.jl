@@ -5,7 +5,7 @@ using LinearAlgebra: Diagonal
 
 include("core.jl")
 include("constructors.jl")
-include("conversions.jl")
+include("projections.jl")
 include("matrices.jl")
 include("operations.jl")
 include("properties.jl")
@@ -34,6 +34,9 @@ weight, weights, # weighted hyperedges functions
 multiplicity,
 species, stoich, src_stoich, tgt_stoich, inputs_stoich, outputs_stoich,
 inputs, outputs, rate,
+
+# core: type projections
+project,
 
 # matrices
 degree_matrix, incidence_matrix, cardinality_matrix, weight_matrix,
