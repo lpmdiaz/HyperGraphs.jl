@@ -35,8 +35,8 @@ multiplicity,
 species, stoich, src_stoich, tgt_stoich, inputs_stoich, outputs_stoich,
 inputs, outputs, rate,
 
-# core: type projections
-project,
+# core: projections
+project, dual,
 
 # matrices
 degree_matrix, incidence_matrix, cardinality_matrix, weight_matrix,
