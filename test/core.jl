@@ -10,6 +10,7 @@ V = collect(1:4) # vertex set
 i = [1; 2; 0; 1] .!= 0
 HyperEdge(V, i)
 HyperEdge(["1", "2", "3", "4"], BitArray([1, 1, 0, 1]))
+@test isequal(HyperEdge(["1", "2", "3", "4"], BitArray([1; 1; 0; 1])), HyperEdge(["1", "2", "4"]))
 
 # hyperedges: functions
 vertices_e = [1, 2, 3]
@@ -34,6 +35,7 @@ HyperGraph(HyperEdge([1, 1]))
 I = BitMatrix(hcat(i, i) .!= 0)
 HyperGraph(V, I)
 HyperGraph(["1", "2", "3", "4"], BitArray([1 0; 1 1; 0 1; 1 1]))
+@test isequal(hyperedges(HyperGraph(["1", "2", "3", "4"], BitArray([1 0; 1 0; 0 1; 1 1]))), [HyperEdge(["1", "2", "4"]), HyperEdge(["3", "4"])])
 
 # hypergraphs: functions
 @test vertices(HyperGraph(HyperEdge([1, :∅]))) == [1, :∅]
