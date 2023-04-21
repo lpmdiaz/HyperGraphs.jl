@@ -4,6 +4,7 @@ using SimpleTraits.SimpleTraits
 using LinearAlgebra: Diagonal
 
 include("core.jl")
+include("constructors.jl")
 include("conversions.jl")
 include("matrices.jl")
 include("operations.jl")

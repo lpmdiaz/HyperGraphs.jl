@@ -6,6 +6,10 @@ using HyperGraphs
 HyperEdge()
 HyperEdge{Int8}()
 HyperEdge([:a, :b])
+V = collect(1:4) # vertex set
+i = [1; 2; 0; 1] .!= 0
+HyperEdge(V, i)
+HyperEdge(["1", "2", "3", "4"], BitArray([1, 1, 0, 1]))
 
 # hyperedges: functions
 vertices_e = [1, 2, 3]
@@ -27,6 +31,9 @@ HyperGraph(HyperEdge([1, 1]))
 @test HyperGraph([1], HyperEdge{Int}[]) == HyperGraph{Int}([1], HyperEdge[])
 @test HyperGraph(1, HyperEdge([1, 1])) == HyperGraph([1], HyperEdge([1, 1])) == HyperGraph(1, [HyperEdge([1, 1])]) == HyperGraph([1], [HyperEdge([1, 1])])
 @test HyperGraph(es) == HyperGraph(unique(vcat(vertices_es...)), es)
+I = BitMatrix(hcat(i, i) .!= 0)
+HyperGraph(V, I)
+HyperGraph(["1", "2", "3", "4"], BitArray([1 0; 1 1; 0 1; 1 1]))
 
 # hypergraphs: functions
 @test vertices(HyperGraph(HyperEdge([1, :∅]))) == [1, :∅]
