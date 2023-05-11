@@ -32,7 +32,8 @@ x = HyperGraph(es)
 @test has_vertices(hyperedges(x)[1], [1, 2])
 @test has_hyperedge(x, hyperedges(x)[1])
 @test has_hyperedges(x, hyperedges(x))
-srcs = [[1], [4]]; tgts = [[1, 2, 3], [2, 3, 4]]
+srcs = [[1], [4]];
+tgts = [[1, 2, 3], [2, 3, 4]];
 ches = [ChemicalHyperEdge(src, tgt) for (src, tgt) in zip(srcs, tgts)]
 vertices_chx = [1, 2, 3, 4]
 chx = ChemicalHyperGraph(vertices_chx, ches)
@@ -155,7 +156,8 @@ catalyst_edge = ChemicalHyperEdge([:X], [:X])
 
 # incident_hyperedges
 x = HyperGraph([HyperEdge([1, 2, 3]), HyperEdge([2, 3, 4])])
-srcs = [[1], [4]]; tgts = [[1, 2, 3], [2, 3, 4]]
+srcs = [[1], [4]];
+tgts = [[1, 2, 3], [2, 3, 4]];
 chx = ChemicalHyperGraph([ChemicalHyperEdge(src, tgt) for (src, tgt) in zip(srcs, tgts)])
 @test incident_hyperedges(x, 1) == [hyperedges(x)[1]]
 @test incident_hyperedges(chx, 1) == [hyperedges(chx)[1]]
@@ -170,6 +172,7 @@ chx = ChemicalHyperGraph([ChemicalHyperEdge(src, tgt) for (src, tgt) in zip(srcs
 @test has_empty_hyperedges(ChemicalHyperGraph(ChemicalHyperEdge()))
 
 # neighbors
+@test neighbors(x, 1) == [2, 3]
 @test neighbors(x, 2) == [1, 3, 4]
 @test inneighbors(chx, 1) == [1]
 @test inneighbors(chx, 2) == [1, 4]

@@ -103,7 +103,17 @@ has_empty_hyperedges(x::T) where {T<:AbstractHyperGraph} = num_empty_hyperedges(
 
 # neighbors
 function neighbors(x::T, v) where {T<:AbstractHyperGraph} # unoriented
-    union(vcat(symdiff.(vertices(incident_hyperedges(x, v)), v))...)
+
+    # get vertices in incident hyperedges
+    vs = vertices(incident_hyperedges(x, v))
+
+    # take care of implicit multiset (to be specialised later)
+    vloops = eltype(x)[]
+    for _vs in vs
+        sum(v .== _vs) > 1 && (push!(vloops, v))
+    end
+
+    union(vloops, vcat(symdiff.(vs, v))...)
 end
 @traitfn function inneighbors(x::T::IsOriented, v) where {T<:AbstractHyperGraph}
 
